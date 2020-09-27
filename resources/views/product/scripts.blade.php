@@ -90,7 +90,8 @@ var slideIndex = 1;
               $("head").append('<meta property="og:image" content="'+ base_url+ '/storage/uploads/'+ data.dataItems[0].company_id +'/'+ data.dataItems[0].items[0].media_file.path +'">');
 
                 var imgs = []; 
-                var panaromicImg = [];
+                var panoramicImg = [];
+                var panoramicSettings = [];
                
                 var conf_hotspots = [];  
                 var blk = 'none'; 
@@ -182,7 +183,8 @@ var slideIndex = 1;
                     
                     Object.keys(items).map(function (ii) {  
                             if(items[ii].item_type == "panorama"){
-                              panaromicImg[ii] = '/storage/uploads/'+o.user.company_id+'/'+items[ii].media_file.path; 
+                              panoramicImg[ii] = '/storage/uploads/'+o.user.company_id+'/'+items[ii].media_file.path; 
+                              panoramicSettings[ii] = items[ii].media_file.interior_settings; 
                             } else{
                               conf_hotspots[ii] = [];      
                               conf_hotspots[ii]['hotspot_setting'] = [];    
@@ -215,7 +217,11 @@ var slideIndex = 1;
                 });   
                 
                 // REMOVE EMPTY ARRAY
-                var panaromicImg = panaromicImg.filter(function (el) {
+                var panoramicImg = panoramicImg.filter(function (el) {
+                                return el != null;
+                              });
+                
+                var panoramicSettings = panoramicSettings.filter(function (el) {
                                 return el != null;
                               });
                  
@@ -311,7 +317,7 @@ var slideIndex = 1;
                        
                     },
                     onComplete: function(){
-                      if(data.hpItems.length > 0 || panaromicImg.length > 0){
+                      if(data.hpItems.length > 0 || panoramicImg.length > 0){
                         $(".content-action").attr("style","display:flex");
                         $(".open-exterior").show();
                       }
@@ -334,7 +340,18 @@ var slideIndex = 1;
                 }
 
                 
-                if(panaromicImg.length > 0){
+                if(panoramicImg.length > 0){
+                 intSettings = JSON.parse(panoramicSettings);
+                 var hfov, pitch, yaw;
+                 if(intSettings){
+                      hfov = intSettings.hfov;
+                      pitch = intSettings.pitch;
+                      yaw = intSettings.yaw;
+                 }else{
+                      hfov = 80;
+                      pitch = -16.834687202204037;
+                      yaw = -36.30724382948786;
+                 }
                       $('.open-interior').show();
                     var x = 1;
                     $(".content-wrapper").hover(function(){
@@ -350,11 +367,11 @@ var slideIndex = 1;
                                   },
                                   scenes: {
                                     "default_scene_start": {  
-                                      hfov: 80,
-                                      pitch: -16.834687202204037,
-                                      yaw: -36.30724382948786, 
+                                      hfov: hfov,
+                                      pitch: pitch,
+                                      yaw: yaw, 
                                       type: "equirectangular",
-                                      panorama: panaromicImg, 
+                                      panorama: panoramicImg, 
                                       hotSpots: intHps, // dynamically add hotspots 
                                     
                                     },
