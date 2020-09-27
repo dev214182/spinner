@@ -405,8 +405,8 @@ z-index: 9;
     .container{width: 100%;  max-width: 1366px; height:auto; padding:0; margin: 0 auto; position: relative; }
 
 @media (max-width:970px) {
-  .center-con { bottom: 35px; height: 40px;width: 40%; left: 30%; } 
-  .round-container{ left: 30%; width: 144px; }
+  .center-con { bottom: 45px; height: 40px;width: 40%; left: 30%; } 
+  .round-container{ left: 30%; width: 155px; }
     .round-label{ font-size:12px;}
     .round{ width: 25px; height: 25px; }
     .arrow{ top:7px;width: 8px; height: 8px;}
@@ -422,11 +422,11 @@ z-index: 9;
     
 
     .center-con {
-      bottom: 44px;
+      bottom: 45px;
     height: 33px;
     width: 55%;
     left: 22%;} 
-    .round-container{ left: 30%; width: 144px; }
+    .round-container{ left: 30%; width: 155px; }
     .round-label{ font-size:12px;}
     .round{ width: 25px; height: 25px; }
     .arrow{ top:7px;width: 8px; height: 8px;}
