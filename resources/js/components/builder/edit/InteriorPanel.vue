@@ -337,11 +337,21 @@ export default {
       let interiorSettings = JSON.parse(
         i.media_file.interior_settings
       );
+      var d_hfov, d_pitch, d_yaw;
+      if(interiorSettings){
+        d_hfov = interiorSettings.hfov;
+        d_pitch = interiorSettings.pitch;
+        d_yaw = interiorSettings.yaw;
+      }else{
+        d_hfov = this.default_hfov;
+        d_pitch = this.default_pitch;
+        d_yaw = this.default_yaw;
+      }
+
       this.thePanorama.addScene(sceneTitle, {
-         
-        hfov: interiorSettings.hfov,
-        pitch: interiorSettings.pitch,
-        yaw: interiorSettings.yaw,
+        hfov: d_hfov,
+        pitch: d_pitch,
+        yaw: d_yaw,
         type: "equirectangular",
         panorama:
           this.baseUrl +
