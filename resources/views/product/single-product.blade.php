@@ -11,12 +11,12 @@
           <div class="spritespin"></div>
           
           <ul id="hp-draggable" class="hp-draggable-ext">  </ul>
-          <div class="icon-360"> <img src="{{URL::to('/')}}/images/360image.png"></div>
+          <!-- <div class="icon-360"> <img src="{{URL::to('/')}}/images/360image.png"></div> -->
         </div>
       </div>
       <div class="interior">
         <div style="max-width: 1366px; margin: 0 auto;">
-          <div id="panorama"> <ul class="hp-draggable-int"> </ul></div>
+          <div id="panorama"> </div>
         </div>
       </div>
     </div> 

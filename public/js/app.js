@@ -3542,8 +3542,8 @@ __webpack_require__.r(__webpack_exports__);
         thumbnailHeight: 40,
         uploadMultiple: true,
         autoProcessQueue: false,
-        maxFiles: 100,
-        parallelUploads: 100,
+        maxFiles: 20,
+        parallelUploads: 20,
         maxFilesize: this.itemType == "video" ? 30 : this.itemType == "panorama" ? 3 : 1,
         timeout: 180000,
         previewTemplate: this.dropzoneTemplate(),
@@ -5417,6 +5417,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var toSaveHotspot = [];
 
 
@@ -5437,6 +5460,9 @@ var toSaveHotspot = [];
   },
   data: function data() {
     return {
+      default_yaw: -36.30724382948786,
+      default_pitch: -16.834687202204037,
+      default_hfov: 50,
       authUser: this.$authUser,
       editingTitle: "",
       fetchedHotspots: [],
@@ -5478,6 +5504,26 @@ var toSaveHotspot = [];
         console.log("Error Fetching Interior Hotspots");
         console.log(error);
       });
+    },
+    setDefault: function setDefault() {
+      var filter = {
+        hfov: this.default_hfov,
+        pitch: this.default_pitch,
+        yaw: this.default_yaw
+      };
+      console.log(filter);
+      var data = {
+        interior_settings: JSON.stringify(filter)
+      };
+      console.log(data); //  axios
+      //   .post("/hotspot/apply", data)
+      //   .then((response) => {
+      //     console.log(response);
+      //   })
+      //   .catch((error) => {
+      //     console.log("Error Setting Default Interior Settings");
+      //     console.log(error);
+      //   });
     },
     saveHotspotSettings: function saveHotspotSettings() {
       var filter = toSaveHotspot.filter(function (el) {
@@ -5562,7 +5608,7 @@ var toSaveHotspot = [];
     },
     onDebugger: function onDebugger() {
       this["debugger"] = !this["debugger"];
-      console.log(this["debugger"]);
+      console.log("Debugger :" + this["debugger"]);
     },
     deleteScene: function deleteScene(i) {
       this.toDelete = i;
@@ -5582,6 +5628,8 @@ var toSaveHotspot = [];
       });
     },
     loadPanorama: function loadPanorama() {
+      var _this3 = this;
+
       var i = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
       // console.log(i.media_file.original_name);
       var sceneTitle = "";
@@ -5597,19 +5645,22 @@ var toSaveHotspot = [];
         scenes: {}
       });
       this.thePanorama.addScene(sceneTitle, {
-        // title: "Mason Circle",
-        // hfov: 92.49266381856185,
-        hfov: 50,
-        pitch: -16.834687202204037,
-        yaw: -36.30724382948786,
+        hfov: this.default_hfov,
+        pitch: this.default_pitch,
+        yaw: this.default_yaw,
         type: "equirectangular",
         panorama: this.baseUrl + "/storage/uploads/" + this.authUser.company_id + "/" + i.media_file.path,
         hotSpots: []
       });
+      this.thePanorama.on("animatefinished", function () {
+        _this3.default_hfov = Math.round(_this3.thePanorama.getHfov());
+        _this3.default_pitch = _this3.thePanorama.getPitch();
+        _this3.default_yaw = _this3.thePanorama.getYaw();
+      });
       this.thePanorama.loadScene(sceneTitle);
     },
     selectedScene: function selectedScene(i) {
-      var _this3 = this;
+      var _this4 = this;
 
       this.selectedItem = Object.assign({}, i);
 
@@ -5622,12 +5673,12 @@ var toSaveHotspot = [];
       this.fetchAllInteriorHotspots();
       setTimeout(function () {
         // To prevent "TypeError: Cannot read property 'classList' of null"
-        _this3.loadPanorama(_this3.selectedItem);
+        _this4.loadPanorama(_this4.selectedItem);
       }, 300);
       setTimeout(function () {
         // To prevent empty hotspots on first load
-        _this3.fetchedHotspots.map(function (hotspot) {
-          _this3.setHotspotFromDB(hotspot);
+        _this4.fetchedHotspots.map(function (hotspot) {
+          _this4.setHotspotFromDB(hotspot);
         });
       }, 600);
     },
@@ -5643,16 +5694,16 @@ var toSaveHotspot = [];
       this.mediaFilesSettings.dialogStatus = !this.mediaFilesSettings.dialogStatus;
     },
     getScenes: function getScenes() {
-      var _this4 = this;
+      var _this5 = this;
 
       this.loading = true;
       axios.get("/item/scenes/by-product/" + this.product).then(function (response) {
         // this.scenes = Object.assign({}, response.data);
-        _this4.scenes = response.data;
-        _this4.loading = false; // console.log(this.scenes.length);
+        _this5.scenes = response.data;
+        _this5.loading = false; // console.log(this.scenes.length);
       })["catch"](function (error) {
         console.log("Error: " + error);
-        console.log(_this4.scenes);
+        console.log(_this5.scenes);
       });
     }
   },
@@ -33663,7 +33714,71 @@ var render = function() {
               staticClass: "elevation-1",
               staticStyle: { height: "400px", width: "100%", margin: "0 auto" },
               attrs: { id: "panorama" }
-            })
+            }),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "row mt-5" },
+              [
+                _c("v-text-field", {
+                  staticClass: "col-2 pt-0",
+                  attrs: { label: "hfov" },
+                  model: {
+                    value: _vm.default_hfov,
+                    callback: function($$v) {
+                      _vm.default_hfov = $$v
+                    },
+                    expression: "default_hfov"
+                  }
+                }),
+                _vm._v(" "),
+                _c("v-text-field", {
+                  staticClass: "col-4 pt-0",
+                  attrs: { label: "pitch" },
+                  model: {
+                    value: _vm.default_pitch,
+                    callback: function($$v) {
+                      _vm.default_pitch = $$v
+                    },
+                    expression: "default_pitch"
+                  }
+                }),
+                _vm._v(" "),
+                _c("v-text-field", {
+                  staticClass: "col-4 pt-0",
+                  attrs: { label: "yaw" },
+                  model: {
+                    value: _vm.default_yaw,
+                    callback: function($$v) {
+                      _vm.default_yaw = $$v
+                    },
+                    expression: "default_yaw"
+                  }
+                }),
+                _vm._v(" "),
+                _c(
+                  "v-btn",
+                  {
+                    attrs: { small: "", color: "primary" },
+                    on: {
+                      click: function($event) {
+                        return _vm.setDefault()
+                      }
+                    }
+                  },
+                  [
+                    _c(
+                      "v-icon",
+                      { staticClass: "mr-1", attrs: { small: "" } },
+                      [_vm._v("mdi-check")]
+                    ),
+                    _vm._v("Set Default\n      ")
+                  ],
+                  1
+                )
+              ],
+              1
+            )
           ]),
       _vm._v(" "),
       _c("media-files", {

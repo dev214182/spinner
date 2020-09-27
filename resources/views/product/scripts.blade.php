@@ -152,6 +152,7 @@ var slideIndex = 1;
                     hpSlider +=       '<img  width="100%" height="auto" src="'+hpContents.image+'" style="width:100%" alt="'+o.title+'" />';
                   }
                   hpSlider += '<div class="hp-contents">';
+                 
                    if(o.title){
                    
                      hpSlider +=       '<h2 class="text-uppercase" >'+o.title+'</h2>';
@@ -340,7 +341,7 @@ var slideIndex = 1;
 
                       if(x == 1){
                     galviewer = pannellum.viewer("panorama", {
-                                  // hotSpotDebug: true,
+                                  //  hotSpotDebug: true,
                                   default: {
                                     firstScene: "default_scene_start",
                                     // author: "Moikzz",
@@ -359,7 +360,8 @@ var slideIndex = 1;
                                     },
                                   },
                                 }); 
-                                x++; 
+                                x++;  
+                            
                         }
                       });
                 }
