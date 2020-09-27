@@ -86,8 +86,8 @@ export default {
         thumbnailHeight: 40,
         uploadMultiple: true,
         autoProcessQueue: false,
-        maxFiles: 100,
-        parallelUploads: 100,
+        maxFiles: 20,
+        parallelUploads: 20,
         maxFilesize:
           this.itemType == "video" ? 30 : this.itemType == "panorama" ? 3 : 1,
         timeout: 180000,

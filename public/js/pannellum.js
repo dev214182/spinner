@@ -736,8 +736,7 @@ function onDocumentMouseDown(event) {
     // Log pitch / yaw of mouse click when debugging / placing hot spots
     if (config.hotSpotDebug) {
         var coords = mouseEventToCoords(event);
-        console.log('Pitch: ' + coords[0] + ', Yaw: ' + coords[1] + ', Center Pitch: ' +
-            config.pitch + ', Center Yaw: ' + config.yaw + ', HFOV: ' + config.hfov);
+         
     }
     
     // Turn off auto-rotation if enabled
@@ -1766,10 +1765,13 @@ function createHotSpot(hs) {
     if (hs.ids)
     div.setAttribute('data-ids',hs.ids);
 
-    var span = document.createElement('span');
-    if (hs.text)
-        span.innerHTML = escapeHTML(hs.text);
+    var a = document.createElement('a');
+    a.innerHTML = escapeHTML("More");
+    a.className += "cd-img-replace";
+    // if (hs.text)
+    //     span.innerHTML = escapeHTML(hs.text);
 
+    div.appendChild(a);
     var a;
     if (hs.video) {
         var video = document.createElement('video'),

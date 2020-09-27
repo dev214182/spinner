@@ -70,6 +70,29 @@
     </div>
     <div v-else class="col-12 pt-0">
       <div id="panorama" class="elevation-1" style="height:400px;width:100%;margin:0 auto;"></div>
+
+      <div class="row mt-5">
+       <v-text-field 
+            v-model="default_hfov"
+            class="col-2 pt-0"
+            label="hfov"  
+          ></v-text-field>
+
+           <v-text-field 
+            v-model="default_pitch"
+            class="col-4 pt-0"
+            label="pitch" 
+          ></v-text-field>
+
+           <v-text-field 
+           v-model="default_yaw"
+            class="col-4 pt-0"
+            label="yaw" 
+          ></v-text-field>
+          <v-btn small color="primary" @click="setDefault()">
+          <v-icon small class="mr-1">mdi-check</v-icon>Set Default
+        </v-btn>
+          </div>
     </div>
     <media-files :mediaOptions="mediaFilesSettings" @responded="mediaResponse" />
     <v-dialog v-model="deleteDialog" max-width="290">
@@ -107,6 +130,10 @@ export default {
   },
   data() {
     return {
+      
+      default_yaw : -36.30724382948786,
+      default_pitch : -16.834687202204037,
+      default_hfov : 50,
       authUser: this.$authUser,
       editingTitle: "",
 
@@ -154,6 +181,28 @@ export default {
           console.log("Error Fetching Interior Hotspots");
           console.log(error);
         });
+    },
+    setDefault(){ 
+        
+      var filter = {
+          hfov : this.default_hfov,
+          pitch : this.default_pitch,
+          yaw : this.default_yaw
+      }
+      console.log(filter);
+       let data = {
+        interior_settings: JSON.stringify(filter),
+      };
+      console.log(data);
+      //  axios
+      //   .post("/hotspot/apply", data)
+      //   .then((response) => {
+      //     console.log(response);
+      //   })
+      //   .catch((error) => {
+      //     console.log("Error Setting Default Interior Settings");
+      //     console.log(error);
+      //   });
     },
     saveHotspotSettings() {
       var filter = toSaveHotspot.filter(function (el) {
@@ -249,7 +298,7 @@ export default {
     },
     onDebugger() {
       this.debugger = !this.debugger;
-      console.log(this.debugger);
+      console.log("Debugger :"+this.debugger);
     },
 
     deleteScene(i) {
@@ -284,13 +333,12 @@ export default {
         },
         scenes: {},
       });
-
+     
       this.thePanorama.addScene(sceneTitle, {
-        // title: "Mason Circle",
-        // hfov: 92.49266381856185,
-        hfov: 50,
-        pitch: -16.834687202204037,
-        yaw: -36.30724382948786,
+         
+        hfov: this.default_hfov,
+        pitch: this.default_pitch,
+        yaw: this.default_yaw,
         type: "equirectangular",
         panorama:
           this.baseUrl +
@@ -300,6 +348,15 @@ export default {
           i.media_file.path,
         hotSpots: [],
       });
+
+       
+      this.thePanorama.on("animatefinished",()=>{
+      
+        this.default_hfov = Math.round(this.thePanorama.getHfov());
+        this.default_pitch = this.thePanorama.getPitch();
+        this.default_yaw = this.thePanorama.getYaw();
+    });
+
       this.thePanorama.loadScene(sceneTitle);
     },
     selectedScene(i) {
