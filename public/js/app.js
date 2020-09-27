@@ -5460,6 +5460,7 @@ var toSaveHotspot = [];
   },
   data: function data() {
     return {
+      currentSceneId: 0,
       default_yaw: -36.30724382948786,
       default_pitch: -16.834687202204037,
       default_hfov: 50,
@@ -5505,25 +5506,22 @@ var toSaveHotspot = [];
         console.log(error);
       });
     },
-    setDefault: function setDefault() {
+    setDefaultPosition: function setDefaultPosition() {
       var filter = {
         hfov: this.default_hfov,
         pitch: this.default_pitch,
         yaw: this.default_yaw
       };
-      console.log(filter);
       var data = {
+        item_id: this.currentSceneId,
         interior_settings: JSON.stringify(filter)
       };
-      console.log(data); //  axios
-      //   .post("/hotspot/apply", data)
-      //   .then((response) => {
-      //     console.log(response);
-      //   })
-      //   .catch((error) => {
-      //     console.log("Error Setting Default Interior Settings");
-      //     console.log(error);
-      //   });
+      axios.post("/scene/setposition", data).then(function (response) {
+        console.log(response);
+      })["catch"](function (error) {
+        console.log("Error Setting Default Interior Settings");
+        console.log(error);
+      });
     },
     saveHotspotSettings: function saveHotspotSettings() {
       var filter = toSaveHotspot.filter(function (el) {
@@ -5644,14 +5642,16 @@ var toSaveHotspot = [];
         },
         scenes: {}
       });
+      var interiorSettings = JSON.parse(i.media_file.interior_settings);
       this.thePanorama.addScene(sceneTitle, {
-        hfov: this.default_hfov,
-        pitch: this.default_pitch,
-        yaw: this.default_yaw,
+        hfov: interiorSettings.hfov,
+        pitch: interiorSettings.pitch,
+        yaw: interiorSettings.yaw,
         type: "equirectangular",
         panorama: this.baseUrl + "/storage/uploads/" + this.authUser.company_id + "/" + i.media_file.path,
         hotSpots: []
       });
+      this.currentSceneId = i.media_file_id;
       this.thePanorama.on("animatefinished", function () {
         _this3.default_hfov = Math.round(_this3.thePanorama.getHfov());
         _this3.default_pitch = _this3.thePanorama.getPitch();
@@ -5671,6 +5671,7 @@ var toSaveHotspot = [];
 
 
       this.fetchAllInteriorHotspots();
+      console.log(this.selectedItem);
       setTimeout(function () {
         // To prevent "TypeError: Cannot read property 'classList' of null"
         _this4.loadPanorama(_this4.selectedItem);
@@ -33762,7 +33763,7 @@ var render = function() {
                     attrs: { small: "", color: "primary" },
                     on: {
                       click: function($event) {
-                        return _vm.setDefault()
+                        return _vm.setDefaultPosition()
                       }
                     }
                   },
@@ -33772,7 +33773,7 @@ var render = function() {
                       { staticClass: "mr-1", attrs: { small: "" } },
                       [_vm._v("mdi-check")]
                     ),
-                    _vm._v("Set Default\n      ")
+                    _vm._v("Set Position\n      ")
                   ],
                   1
                 )

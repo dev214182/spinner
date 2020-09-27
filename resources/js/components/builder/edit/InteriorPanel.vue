@@ -89,8 +89,8 @@
             class="col-4 pt-0"
             label="yaw" 
           ></v-text-field>
-          <v-btn small color="primary" @click="setDefault()">
-          <v-icon small class="mr-1">mdi-check</v-icon>Set Default
+          <v-btn small color="primary" @click="setDefaultPosition()">
+          <v-icon small class="mr-1">mdi-check</v-icon>Set Position
         </v-btn>
           </div>
     </div>
@@ -130,7 +130,7 @@ export default {
   },
   data() {
     return {
-      
+      currentSceneId : 0,
       default_yaw : -36.30724382948786,
       default_pitch : -16.834687202204037,
       default_hfov : 50,
@@ -182,27 +182,28 @@ export default {
           console.log(error);
         });
     },
-    setDefault(){ 
+    setDefaultPosition(){ 
         
       var filter = {
           hfov : this.default_hfov,
           pitch : this.default_pitch,
           yaw : this.default_yaw
       }
-      console.log(filter);
+    
        let data = {
+        item_id : this.currentSceneId,
         interior_settings: JSON.stringify(filter),
       };
-      console.log(data);
-      //  axios
-      //   .post("/hotspot/apply", data)
-      //   .then((response) => {
-      //     console.log(response);
-      //   })
-      //   .catch((error) => {
-      //     console.log("Error Setting Default Interior Settings");
-      //     console.log(error);
-      //   });
+      
+       axios
+        .post("/scene/setposition", data)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log("Error Setting Default Interior Settings");
+          console.log(error);
+        });
     },
     saveHotspotSettings() {
       var filter = toSaveHotspot.filter(function (el) {
@@ -333,12 +334,14 @@ export default {
         },
         scenes: {},
       });
-     
+      let interiorSettings = JSON.parse(
+        i.media_file.interior_settings
+      );
       this.thePanorama.addScene(sceneTitle, {
          
-        hfov: this.default_hfov,
-        pitch: this.default_pitch,
-        yaw: this.default_yaw,
+        hfov: interiorSettings.hfov,
+        pitch: interiorSettings.pitch,
+        yaw: interiorSettings.yaw,
         type: "equirectangular",
         panorama:
           this.baseUrl +
@@ -349,7 +352,7 @@ export default {
         hotSpots: [],
       });
 
-       
+      this.currentSceneId = i.media_file_id;
       this.thePanorama.on("animatefinished",()=>{
       
         this.default_hfov = Math.round(this.thePanorama.getHfov());
@@ -368,7 +371,7 @@ export default {
 
       // Fetch all saved hotspots
       this.fetchAllInteriorHotspots();
-
+      console.log( this.selectedItem);
       setTimeout(() => {
         // To prevent "TypeError: Cannot read property 'classList' of null"
         this.loadPanorama(this.selectedItem);

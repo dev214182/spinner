@@ -38,6 +38,18 @@ class ItemsController extends Controller
         return response()->json('Item has been deleted', 200);
     }
 
+    public function setPosition(Request $request){
+       
+        $toReplaceItem = Media_file::where('id', '=', $request->item_id)->firstOrFail();
+        $toReplaceItem->update(['interior_settings' => $request->interior_settings]);
+
+        // Return response
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Item image has been updated',
+        ], 200);
+    }
+
     public function saveItem(Request $request)
     {
         // Decode data string
