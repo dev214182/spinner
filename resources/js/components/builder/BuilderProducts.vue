@@ -34,20 +34,22 @@
             <thead>
               <tr>
                 <th class="text-left">Product Name</th>
+                <th class="text-left">VIN</th>
                 <th class="text-left">slug</th>
-                <th class="text-left">Status</th>
-                <th class="text-center">Embed</th>
+                <!-- <th class="text-left">Status</th> -->
+                <th  v-if="authUser.role < 5" class="text-center">Embed</th>
                 <th class="text-right">Actions</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="item in products" :key="item.name">
                 <td>{{ item.title }}</td>
+                <td></td>
                  <td>{{ item.slug }}</td>
-                <td
+                <!-- <td
                   :class="`${item.status == 1 ? 'green--text' : 'blue--text'} text-left`"
-                >{{ item.status == 1 ? 'active' : 'inactive' }}</td>
-                <td class="text-center">
+                >{{ item.status == 1 ? 'active' : 'inactive' }}</td> -->
+                <td  v-if="authUser.role < 5" class="text-center">
                   <v-btn
                     title="Embed"
                     text
@@ -67,12 +69,14 @@
                   >
                     <v-icon small>mdi-open-in-new</v-icon>
                   </v-btn>
-                  <v-btn title="Edit" icon small @click="editProduct(item.id)" color="blue">
-                    <v-icon small>mdi-pencil</v-icon>
-                  </v-btn>
-                  <v-btn title="Delete" icon small @click="actionFn(item)" color="red">
-                    <v-icon small>mdi-trash-can-outline</v-icon>
-                  </v-btn>
+                 
+                      <v-btn v-if="authUser.role < 5" title="Edit" icon small @click="editProduct(item.id)" color="blue">
+                        <v-icon small>mdi-pencil</v-icon>
+                      </v-btn>
+                      <v-btn v-if="authUser.role < 5" title="Delete" icon small @click="actionFn(item)" color="red">
+                        <v-icon small>mdi-trash-can-outline</v-icon>
+                      </v-btn>
+                   
                 </td>
               </tr>
             </tbody>
@@ -134,6 +138,7 @@ export default {
   name: "Products",
   data() {
     return {
+      authUser: this.$authUser,
       searchProduct: "",
       newProductDialog: false,
       dialogDelete: false,

@@ -3047,7 +3047,11 @@ __webpack_require__.r(__webpack_exports__);
         text: "Products",
         location: "/builder/products"
       }],
-      clientSettings: [],
+      clientSettings: [{
+        icon: "mdi-account",
+        text: "Account",
+        location: "/settings/account"
+      }],
       adminSettings: [{
         icon: "mdi-account-group",
         text: "Companies",
@@ -3062,7 +3066,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     settings: function settings() {
       if (this.authUser.role < 4) {
-        this.clientSettings = [{
+        var clSet = [{
           icon: "mdi-watermark",
           text: "Watermark",
           location: "/settings/watermarks"
@@ -3074,11 +3078,19 @@ __webpack_require__.r(__webpack_exports__);
           icon: "mdi-account-group",
           text: "Teams",
           location: "/settings/teams"
-        }, {
-          icon: "mdi-account",
-          text: "Account",
-          location: "/settings/account"
         }];
+        clSet.push(this.clientSettings[0]);
+        this.clientSettings = clSet;
+      } else if (this.authUser.role == 4) {
+        var _clSet = [{
+          icon: "mdi-watermark",
+          text: "Watermark",
+          location: "/settings/watermarks"
+        }];
+
+        _clSet.push(this.clientSettings[0]);
+
+        this.clientSettings = _clSet;
       }
     }
   },
@@ -4027,6 +4039,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -4035,6 +4051,7 @@ __webpack_require__.r(__webpack_exports__);
   name: "Products",
   data: function data() {
     return {
+      authUser: this.$authUser,
       searchProduct: "",
       newProductDialog: false,
       dialogDelete: false,
@@ -30532,7 +30549,7 @@ var render = function() {
               _vm._v(" "),
               _c("v-spacer"),
               _vm._v(" "),
-              _vm.authUser.role < 4
+              _vm.authUser.role < 5
                 ? _c(
                     "v-subheader",
                     { staticClass: "mt-4 mt-auto grey--text text--darken-1" },
@@ -31438,7 +31455,7 @@ var render = function() {
         { staticClass: "px-5", attrs: { cols: "12" } },
         [
           _c("h3", { staticClass: "font-weight-light mb-5" }, [
-            _vm._v("Dashboard is coming soonsssssss.")
+            _vm._v("Dashboard is coming soon.")
           ]),
           _vm._v(" "),
           _c("v-card")
@@ -31761,16 +31778,18 @@ var render = function() {
                             ]),
                             _vm._v(" "),
                             _c("th", { staticClass: "text-left" }, [
-                              _vm._v("slug")
+                              _vm._v("VIN")
                             ]),
                             _vm._v(" "),
                             _c("th", { staticClass: "text-left" }, [
-                              _vm._v("Status")
+                              _vm._v("slug")
                             ]),
                             _vm._v(" "),
-                            _c("th", { staticClass: "text-center" }, [
-                              _vm._v("Embed")
-                            ]),
+                            _vm.authUser.role < 5
+                              ? _c("th", { staticClass: "text-center" }, [
+                                  _vm._v("Embed")
+                                ])
+                              : _vm._e(),
                             _vm._v(" "),
                             _c("th", { staticClass: "text-right" }, [
                               _vm._v("Actions")
@@ -31784,52 +31803,39 @@ var render = function() {
                             return _c("tr", { key: item.name }, [
                               _c("td", [_vm._v(_vm._s(item.title))]),
                               _vm._v(" "),
+                              _c("td"),
+                              _vm._v(" "),
                               _c("td", [_vm._v(_vm._s(item.slug))]),
                               _vm._v(" "),
-                              _c(
-                                "td",
-                                {
-                                  class:
-                                    (item.status == 1
-                                      ? "green--text"
-                                      : "blue--text") + " text-left"
-                                },
-                                [
-                                  _vm._v(
-                                    _vm._s(
-                                      item.status == 1 ? "active" : "inactive"
-                                    )
+                              _vm.authUser.role < 5
+                                ? _c(
+                                    "td",
+                                    { staticClass: "text-center" },
+                                    [
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          attrs: {
+                                            title: "Embed",
+                                            text: "",
+                                            small: "",
+                                            color: "blue-grey darken-2"
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.openCode(
+                                                item.slug,
+                                                item.title
+                                              )
+                                            }
+                                          }
+                                        },
+                                        [_vm._v("get code")]
+                                      )
+                                    ],
+                                    1
                                   )
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "td",
-                                { staticClass: "text-center" },
-                                [
-                                  _c(
-                                    "v-btn",
-                                    {
-                                      attrs: {
-                                        title: "Embed",
-                                        text: "",
-                                        small: "",
-                                        color: "blue-grey darken-2"
-                                      },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.openCode(
-                                            item.slug,
-                                            item.title
-                                          )
-                                        }
-                                      }
-                                    },
-                                    [_vm._v("get code")]
-                                  )
-                                ],
-                                1
-                              ),
+                                : _vm._e(),
                               _vm._v(" "),
                               _c(
                                 "td",
@@ -31855,51 +31861,59 @@ var render = function() {
                                     1
                                   ),
                                   _vm._v(" "),
-                                  _c(
-                                    "v-btn",
-                                    {
-                                      attrs: {
-                                        title: "Edit",
-                                        icon: "",
-                                        small: "",
-                                        color: "blue"
-                                      },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.editProduct(item.id)
-                                        }
-                                      }
-                                    },
-                                    [
-                                      _c("v-icon", { attrs: { small: "" } }, [
-                                        _vm._v("mdi-pencil")
-                                      ])
-                                    ],
-                                    1
-                                  ),
+                                  _vm.authUser.role < 5
+                                    ? _c(
+                                        "v-btn",
+                                        {
+                                          attrs: {
+                                            title: "Edit",
+                                            icon: "",
+                                            small: "",
+                                            color: "blue"
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.editProduct(item.id)
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            { attrs: { small: "" } },
+                                            [_vm._v("mdi-pencil")]
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    : _vm._e(),
                                   _vm._v(" "),
-                                  _c(
-                                    "v-btn",
-                                    {
-                                      attrs: {
-                                        title: "Delete",
-                                        icon: "",
-                                        small: "",
-                                        color: "red"
-                                      },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.actionFn(item)
-                                        }
-                                      }
-                                    },
-                                    [
-                                      _c("v-icon", { attrs: { small: "" } }, [
-                                        _vm._v("mdi-trash-can-outline")
-                                      ])
-                                    ],
-                                    1
-                                  )
+                                  _vm.authUser.role < 5
+                                    ? _c(
+                                        "v-btn",
+                                        {
+                                          attrs: {
+                                            title: "Delete",
+                                            icon: "",
+                                            small: "",
+                                            color: "red"
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.actionFn(item)
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            { attrs: { small: "" } },
+                                            [_vm._v("mdi-trash-can-outline")]
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    : _vm._e()
                                 ],
                                 1
                               )

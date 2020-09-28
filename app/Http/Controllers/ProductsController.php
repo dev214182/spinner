@@ -44,8 +44,13 @@ class ProductsController extends Controller
 
     public function productsAPI()
     {
-        $company_id = Auth::user()->company_id;
-        $products = Product::where('company_id', $company_id)->orderBy('created_at', 'desc')->paginate(10);
+        if(Auth::user()->role == 5){
+            $userId = Auth::user()->id;
+            $products = Product::where('user_id', $userId)->orderBy('created_at', 'desc')->paginate(10);
+        }else{
+            $company_id = Auth::user()->company_id;
+            $products = Product::where('company_id', $company_id)->orderBy('created_at', 'desc')->paginate(10);
+        }
         return response()->json($products, 200);
     }
 

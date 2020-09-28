@@ -18,7 +18,7 @@
         <v-spacer></v-spacer>
         <!-- Client Settings -->
         <v-subheader
-          v-if="authUser.role < 4"
+          v-if="authUser.role < 5"
           class="mt-4 mt-auto grey--text text--darken-1"
           >Settings</v-subheader
         >
@@ -131,15 +131,19 @@ export default {
           location: "/builder/products",
         },
       ],
-      clientSettings: [],
+      clientSettings: [ {
+            icon: "mdi-account",
+            text: "Account",
+            location: "/settings/account",
+          }],
 
       adminSettings: [
-        {
-          icon: "mdi-account-group",
-          text: "Companies",
-          location: "/settings/companies",
-        },
-      ],
+                      {
+                        icon: "mdi-account-group",
+                        text: "Companies",
+                        location: "/settings/companies",
+                      }
+                    ],
     };
   },
   methods: {
@@ -149,30 +153,36 @@ export default {
     },
 
     settings: function () {
+      
+      
       if (this.authUser.role < 4) {
-        this.clientSettings = [
-          {
-            icon: "mdi-watermark",
-            text: "Watermark",
-            location: "/settings/watermarks",
-          },
-          {
-            icon: "mdi-star",
-            text: "Organization",
-            location: "/settings/organization",
-          },
-          {
-            icon: "mdi-account-group",
-            text: "Teams",
-            location: "/settings/teams",
-          },
-          {
-            icon: "mdi-account",
-            text: "Account",
-            location: "/settings/account",
-          },
-        ];
+        let clSet = [{
+                        icon: "mdi-watermark",
+                        text: "Watermark",
+                        location: "/settings/watermarks",
+                      },
+                      {
+                        icon: "mdi-star",
+                        text: "Organization",
+                        location: "/settings/organization",
+                      },
+                      {
+                        icon: "mdi-account-group",
+                        text: "Teams",
+                        location: "/settings/teams",
+                      }];
+        clSet.push(this.clientSettings[0])
+        this.clientSettings = clSet;
+      }else  if (this.authUser.role == 4) {
+        let clSet = [{
+                        icon: "mdi-watermark",
+                        text: "Watermark",
+                        location: "/settings/watermarks",
+                      }];
+        clSet.push(this.clientSettings[0])
+        this.clientSettings = clSet;
       }
+      
     },
   },
   created: function () {

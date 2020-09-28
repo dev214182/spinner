@@ -31,10 +31,6 @@ class ItemsController extends Controller
         $item = Item::where('id', '=', $id)->firstOrFail();
         $item->delete();
 
-        // No need to update media_file since the media_file_id is now attached to items table
-        // $file = Media_file::where('item_id', '=', $id)->firstOrFail();
-        // $file->update(['item_id' => null]);
-
         return response()->json('Item has been deleted', 200);
     }
 
