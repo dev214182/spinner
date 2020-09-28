@@ -151,13 +151,13 @@ export default {
     openCode(slug, title) {
       this.dialog = true;
       this.code =
-        '<iframe src="' +
+        '<div style="padding-top:56%;position:relative;"><iframe src="' +
         window.location.origin +
         "/product/" +
         slug +
-        '" height="450px" width="100%" title="' +
+        '" style="border:none; position:absolute; top:0; left:0;height: 100%;" width="100%" title="' +
         title +
-        '" scrolling="no" allowfullscreen="allowfullscreen"></iframe>';
+        '" scrolling="no" allowfullscreen="allowfullscreen"></iframe></div>';
     },
     selectCode() {
       let theCode = this.$refs.code.$el.querySelector("textarea");
