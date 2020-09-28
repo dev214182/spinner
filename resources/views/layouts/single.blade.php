@@ -112,6 +112,7 @@ display: none;
   display:none;
   width: 24%;
     left: 38%;
+    position:absolute;
     bottom: 65px;
     height: 50px;
     position: absolute;
@@ -405,7 +406,8 @@ z-index: 9;
     .container{width: 100%;  max-width: 1366px; height:auto; padding:0; margin: 0 auto; position: relative; }
 
 @media (max-width:970px) {
-  .center-con { bottom: 45px; height: 40px;width: 40%; left: 30%; } 
+  .center-con {bottom: 17px;
+    height: 34px; width: 40%; left: 30%; } 
   .round-container{ left: 30%; width: 155px; }
     .round-label{ font-size:12px;}
     .round{ width: 25px; height: 25px; }
@@ -413,7 +415,8 @@ z-index: 9;
 }
  
 @media (max-width:576px) {
-  .open-exterior, .open-interior{ line-height: 5px; }
+  .content-action{ height: 20px; }
+  .open-exterior, .open-interior, .videos.img, .photos.img{ padding: 4px 15px; }
   .custom-hotspot{ height: 23px; width: 23px;}
   .hp-contents{ width: 100%; }
   h2{ font-size: 14px; }
@@ -423,7 +426,7 @@ z-index: 9;
     
 
     .center-con {
-      bottom: 45px;
+      bottom: 17px;
     height: 33px;
     width: 55%;
     left: 22%;} 
