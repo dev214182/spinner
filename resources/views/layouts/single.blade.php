@@ -416,7 +416,7 @@ z-index: 9;
 }
  
 @media (max-width:576px) {
-  .prev, .next { padding: 5px 10px; font-size: 12px; }
+  .prev, .next { padding: 5px 10px; font-size: 12px; margin-top: -15px; }
   .content-action{ height: 20px; }
   .open-exterior, .open-interior, .videos.img, .photos.img{ padding: 4px 15px; }
   .custom-hotspot{ height: 23px; width: 23px;}

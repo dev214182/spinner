@@ -337,51 +337,7 @@ var slideIndex = 1;
               
                 if(data.hpItems.length > 0){
                   $(".photos.img").show();
-                }
-
-                
-                if(panoramicImg.length > 0){
-                  var hfov, pitch, yaw;
-                if(panoramicSettings.length > 0){
-                    intSettings = JSON.parse(panoramicSettings);
-                      hfov = intSettings.hfov;
-                      pitch = intSettings.pitch;
-                      yaw = intSettings.yaw;
-                 }else{
-                      hfov = 80;
-                      pitch = -16.834687202204037;
-                      yaw = -36.30724382948786;
-                 }
-                      $('.open-interior').show();
-                    var x = 1;
-                    $(".content-wrapper").hover(function(){
-
-                      if(x == 1){
-                    galviewer = pannellum.viewer("panorama", {
-                                  //  hotSpotDebug: true,
-                                  default: {
-                                    firstScene: "default_scene_start",
-                                    // author: "Moikzz",
-                                    autoLoad: true,
-                                    sceneFadeDuration: 1000,
-                                  },
-                                  scenes: {
-                                    "default_scene_start": {  
-                                      hfov: hfov,
-                                      pitch: pitch,
-                                      yaw: yaw, 
-                                      type: "equirectangular",
-                                      panorama: panoramicImg, 
-                                      hotSpots: intHps, // dynamically add hotspots 
-                                    
-                                    },
-                                  },
-                                }); 
-                                x++;  
-                            
-                        }
-                      });
-                }
+                } 
 
                       /**
                       * HotSpot
@@ -417,11 +373,51 @@ var slideIndex = 1;
                       var $interiorBtn = $(".open-interior");
                       var $exteriorBtn = $(".open-exterior");
 
+                      if(panoramicImg.length > 0){
+                        $interiorBtn.show();
+                            var hfov, pitch, yaw;
+                          if(panoramicSettings.length > 0){
+                              intSettings = JSON.parse(panoramicSettings);
+                                hfov = intSettings.hfov;
+                                pitch = intSettings.pitch;
+                                yaw = intSettings.yaw;
+                          }else{
+                                hfov = 80;
+                                pitch = -16.834687202204037;
+                                yaw = -36.30724382948786;
+                          }
+                        }
                       $interior.hide();
-
+                      var x = 1;
                       $interiorBtn.on("click", function (e) {
                         e.preventDefault();
-                        hideVideo();
+                        hideVideo(); 
+                         
+                            if(x == 1){
+                              console.log(x);
+                                      pannellum.viewer("panorama", {
+                                        //  hotSpotDebug: true,
+                                        default: {
+                                          firstScene: "default_scene_start",
+                                          // author: "Moikzz",
+                                          autoLoad: true,
+                                          sceneFadeDuration: 1000,
+                                        },
+                                        scenes: {
+                                          "default_scene_start": {  
+                                            hfov: hfov,
+                                            pitch: pitch,
+                                            yaw: yaw, 
+                                            type: "equirectangular",
+                                            panorama: panoramicImg, 
+                                            hotSpots: intHps, // dynamically add hotspots 
+                                          
+                                          },
+                                        },
+                                      }); 
+                                      x++;   
+                              } 
+
                         $exteriorBtn.removeClass("active");
                         $interiorBtn.addClass("active");
                         $interior.show();
