@@ -411,10 +411,12 @@ z-index: 9;
   .round-container{ left: 30%; width: 155px; }
     .round-label{ font-size:12px;}
     .round{ width: 25px; height: 25px; }
-    .arrow{ top:7px;width: 8px; height: 8px;}
+    .arrow{ top:7px;width: 8px; height: 8px;} 
+   
 }
  
 @media (max-width:576px) {
+  .prev, .next { padding: 5px 10px; font-size: 12px; }
   .content-action{ height: 20px; }
   .open-exterior, .open-interior, .videos.img, .photos.img{ padding: 4px 15px; }
   .custom-hotspot{ height: 23px; width: 23px;}
