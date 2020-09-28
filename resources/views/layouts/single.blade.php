@@ -376,7 +376,7 @@ display: none;
    
 .active{background-color: #fbad18;}
 .content-action{ position: absolute;
-    bottom:0;
+    top:0;
     -webkit-box-pack: center;
         -ms-flex-pack: center;
             justify-content: center;
@@ -413,6 +413,7 @@ z-index: 9;
 }
  
 @media (max-width:576px) {
+  .open-exterior, .open-interior{ line-height: 5px; }
   .custom-hotspot{ height: 23px; width: 23px;}
   .hp-contents{ width: 100%; }
   h2{ font-size: 14px; }
