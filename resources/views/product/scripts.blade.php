@@ -266,7 +266,7 @@ var slideIndex = 1;
                     "360", 
                     ], 
                     onFrameChanged: function (e, data) { 
-
+                        hideVideo(); 
                         $('#hp-draggable li').hide();
                         
                         if(conf_hotspots){
@@ -441,5 +441,10 @@ var slideIndex = 1;
             }
         }); 
        
+
+        $("body").on("click",".content-wrapper", function(e){
+          e.preventDefault();
+          hideVideo();
+        });
       });
   </script>

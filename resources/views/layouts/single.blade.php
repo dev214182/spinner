@@ -416,6 +416,8 @@ z-index: 9;
 }
  
 @media (max-width:576px) {
+  .slick-track{ margin-left: 5px !important;}
+  .slick-slider{ z-index: 9999; }
   .prev, .next { padding: 5px 10px; font-size: 12px; margin-top: -15px; }
   .content-action{ height: 20px; }
   .open-exterior, .open-interior, .videos.img, .photos.img{ padding: 4px 15px; }
