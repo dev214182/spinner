@@ -506,16 +506,17 @@ var base_url = "{{URL::to('/')}}";
 </head>
 
 <body>
+ 
     <div id="app">
     <div id="loading-wrapper">
       <div id="loading-text">LOADING</div>
       <div id="loading-content"></div>
     </div>
-        <v-app>
+        
             @yield('content')
-        </v-app>
+        
     </div>
-
+  
     <script type="text/javascript" src="{{ asset('js/jquery-3.3.1.js') }}"></script>
      <!-- Styles -->
      <!-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->

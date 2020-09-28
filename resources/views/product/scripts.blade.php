@@ -341,9 +341,9 @@ var slideIndex = 1;
 
                 
                 if(panoramicImg.length > 0){
-                 intSettings = JSON.parse(panoramicSettings);
-                 var hfov, pitch, yaw;
-                 if(intSettings){
+                  var hfov, pitch, yaw;
+                if(panoramicSettings.length > 0){
+                    intSettings = JSON.parse(panoramicSettings);
                       hfov = intSettings.hfov;
                       pitch = intSettings.pitch;
                       yaw = intSettings.yaw;
