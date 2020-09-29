@@ -22,7 +22,7 @@
         >Video</v-btn>
         <v-btn class="ml-auto" large :href="`${previewUrl}`" target="_blank">Preview</v-btn>
       </div>
-    </v-row>
+    </v-row> 
     <v-divider></v-divider>
     <v-row>
       <div class="col-12 col-md-3" v-show="activateVideo == false">
