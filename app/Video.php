@@ -27,7 +27,7 @@ class Video extends Model
         static::deleting(function($video) { 
          
             $video->each(function($i) {  
-                    $vids = explode("/",$i->video_path);
+                    $vids = explode("/",$i->video_path);    
                     Storage::delete('public/uploads/'.Auth::user()->company_id.'/'.end($vids)); 
             }); 
           

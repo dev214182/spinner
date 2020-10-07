@@ -16,11 +16,13 @@ class BuilderController extends Controller
 
     public function index()
     {
+      
         return view('builder.index');
     }
 
     public function edit($id)
-    {
+    { 
+      
         $userCompanyId = Auth::user()->company_id;
         $product = Product::where('id', '=', $id)->firstOrFail();
         

@@ -31698,26 +31698,32 @@ var render = function() {
             "div",
             { staticClass: "d-flex align-center" },
             [
-              _c(
-                "v-btn",
-                {
-                  staticClass: "mr-3 text--primary",
-                  attrs: {
-                    elevation: "2",
-                    fab: "",
-                    dark: "",
-                    "x-small": "",
-                    color: "white"
-                  },
-                  on: {
-                    click: function($event) {
-                      _vm.newProductDialog = true
-                    }
-                  }
-                },
-                [_c("v-icon", { attrs: { dark: "" } }, [_vm._v("mdi-plus")])],
-                1
-              ),
+              _vm.authUser.role < 5
+                ? _c(
+                    "v-btn",
+                    {
+                      staticClass: "mr-3 text--primary",
+                      attrs: {
+                        elevation: "2",
+                        fab: "",
+                        dark: "",
+                        "x-small": "",
+                        color: "white"
+                      },
+                      on: {
+                        click: function($event) {
+                          _vm.newProductDialog = true
+                        }
+                      }
+                    },
+                    [
+                      _c("v-icon", { attrs: { dark: "" } }, [
+                        _vm._v("mdi-plus")
+                      ])
+                    ],
+                    1
+                  )
+                : _vm._e(),
               _vm._v(" "),
               _c("h3", { staticClass: "font-weight-light" }, [
                 _vm._v("Products")

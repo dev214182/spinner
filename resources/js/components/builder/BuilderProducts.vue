@@ -3,7 +3,7 @@
     <v-col cols="9" class="px-5">
       <div class="d-flex align-center">
         <!-- to="/builder/product/new" -->
-        <v-btn
+        <v-btn v-if="authUser.role < 5"
           @click="newProductDialog = true"
           class="mr-3 text--primary"
           elevation="2"

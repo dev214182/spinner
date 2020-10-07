@@ -7,7 +7,7 @@ use App\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-
+use Spatie\Permission\Models\Role;
 class SettingsController extends Controller
 {
     public function __construct()
@@ -106,9 +106,7 @@ class SettingsController extends Controller
         ], 200);
     }
 
-    public function searchData($search)
-    {
-       
+    public function searchData($search) { 
         $company_id = Auth::user()->company_id;
         $user = User::where('company_id', $company_id)->where('name', 'like', '%'.$search.'%')->orWhere('phone', 'like', '%'.$search.'%')->orderBy('name', 'asc')->paginate(10);
         
@@ -118,6 +116,8 @@ class SettingsController extends Controller
     public function saveOrgUser(Request $request)
     {
         $this->validateNewTeamRequest(); 
+
+        $role = Role::create(['name' => $request->role]);
         // store request
         $product = User::create([
             'name' => $request->name,
@@ -127,7 +127,7 @@ class SettingsController extends Controller
             'status' => 1,
             'password' => Hash::make($request->password),
             'company_id' => Auth::user()->company_id
-        ]);
+        ]); 
        
         // response
         return response()->json([  

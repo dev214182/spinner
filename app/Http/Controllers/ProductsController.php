@@ -28,6 +28,7 @@ class ProductsController extends Controller
 
     public function fetch($id)
     { 
+       
         $product = Product::where('id', '=', $id)->firstOrFail();
         return response()->json($product, 200);
       
@@ -62,7 +63,6 @@ class ProductsController extends Controller
                                 $query->where('slug', '=', $id)
                                     ->orWhere('id', '=', $id);
         })->with('user','items','items.media_file','items.hotspot_setting')->get();
-
        
         if(@count($products) > 0){
             $hotspot = Hotspot::where('product_id', '=', $products[0]->id)->orderBy("hotspot_for")->get(); 
