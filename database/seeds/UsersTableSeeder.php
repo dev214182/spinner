@@ -21,6 +21,8 @@ class UsersTableSeeder extends Seeder
             'company_id'    => 1,
         ]);
         $user->save();
+        $user->roles()->sync([1,1]);
+
         $user = new \App\User([
             'name'          => 'Steve Ayala',
             'email'         => 'jacob@gagroup.net',
@@ -31,6 +33,8 @@ class UsersTableSeeder extends Seeder
             'company_id'    => 1,
         ]);
         $user->save();
+        $user->roles()->sync([2,2]);    
+
         $user = new \App\User([
             'name'          => 'Editor Account',
             'email'         => 'editor@editor.com',
@@ -41,7 +45,7 @@ class UsersTableSeeder extends Seeder
             'company_id'    => 1,
         ]);
         $user->save();
-
+        $user->roles()->sync([3,3]);    
         // $faker = Faker\Factory::create();
     	// foreach (range(1,50) as $index) {
 	    //     DB::table('users')->insert([

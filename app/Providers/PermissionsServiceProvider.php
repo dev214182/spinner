@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
-use App\Providers\Permission;
+use App\Providersgit;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class PermissionsServiceProvider extends ServiceProvider

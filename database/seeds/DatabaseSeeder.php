@@ -15,7 +15,8 @@ class DatabaseSeeder extends Seeder
             UsersTableSeeder::class,
             // ProductsTableSeeder::class,
             CompanySeeder::class,
-            // WatermarkSeeder::class,
+            RolesTableSeeder::class,
+           // Users_rolesTableSeeder::class,
         ]);
     }
 }
