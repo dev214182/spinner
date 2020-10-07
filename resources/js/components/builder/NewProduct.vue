@@ -43,9 +43,12 @@ export default {
       axios
         .post("/builder/product/store", data)
         .then((response) => { 
-         
-          this.$router.push("/builder/product/edit/" + response.data.product); 
-         
+            if(response.data.product){
+              this.$router.push("/builder/product/edit/" + response.data.product); 
+            }else{
+              $('form div.v-input').html("");
+              $('form h3').html(response.data.message);
+            }
         })
         .catch((error) => {
           console.log("invalid");

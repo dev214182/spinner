@@ -91,6 +91,14 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
+      
+        if (!$request->user()->can('all-permission') && !$request->user()->can('c-only') && !$request->user()->can('c-u-only') && !$request->user()->can('c-d-only')) { 
+            return response()->json([
+                        'product' => false,
+                        'message' => 'You dont have permission to create',
+                    ], 200);
+        }
+
         $company_id = Auth::user()->company_id;
         // validate request 
 

@@ -13,17 +13,21 @@ class RoleMiddleware
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next, ...$roles)
+    public function handle($request, Closure $next, $roles)
     {
+        
+        if(!$roles){ return abort(404); }
+        
+        $roles = explode('|',$roles);
 
         
-        if(empty($roles)) $roles = [1];
         foreach($roles as $role) {
-            if($request->user()->role == $role) { 
+            if($request->user()->hasRole($role)) { 
                 return $next($request); 
             } 
-        } 
-        return abort(404);
-
+        }   
+        abort(404); 
+       
+        
     }
 }

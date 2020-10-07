@@ -9,7 +9,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     @if (Auth::check()) 
-        <meta name="auth_user" content="{{ Auth::user() }}" />
+        <meta name="auth_user" content="{{ $usersAuth }}" /> 
     @endif
     
     <title>Gallega Spinner - Alpha</title>

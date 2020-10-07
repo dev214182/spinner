@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Providersgit;
+use App\Permission;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;

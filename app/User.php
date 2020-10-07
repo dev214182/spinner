@@ -4,10 +4,11 @@ namespace App;
 
 use App\Company;
 use App\Product;
+use App\Permission;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use App\Policies\HasPermissionsTrait;
+use App\Permissions\HasPermissionsTrait;
 
 class User extends Authenticatable
 {
@@ -54,6 +55,7 @@ class User extends Authenticatable
         return $this->hasMany(Product::class);
     }
 
+   
     /**
      * User Roles
      * 1. Super Admin

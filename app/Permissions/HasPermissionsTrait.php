@@ -1,7 +1,7 @@
 <?php
-namespace App\Policies;
+namespace App\Permissions;
 
-use App\Providers\Permission;
+use App\Permission;
 use App\Role;
 
 trait HasPermissionsTrait {
@@ -9,7 +9,7 @@ trait HasPermissionsTrait {
    public function givePermissionsTo(... $permissions) {
 
     $permissions = $this->getAllPermissions($permissions);
-    dd($permissions);
+    
     if($permissions === null) {
       return $this;
     }

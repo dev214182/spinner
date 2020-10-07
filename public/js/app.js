@@ -4042,7 +4042,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -4051,6 +4050,14 @@ __webpack_require__.r(__webpack_exports__);
   name: "Products",
   data: function data() {
     return {
+      permitted: false,
+      permitEdit: false,
+      permitDelete: false,
+      permitValidation: {
+        add: ['all-permission', 'c-only'],
+        edit: ['all-permission', 'u-only'],
+        "delete": ['all-permission', 'd-only']
+      },
       authUser: this.$authUser,
       searchProduct: "",
       newProductDialog: false,
@@ -4146,10 +4153,30 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         this.getProducts(1);
       }
+    },
+    permissionAccess: function permissionAccess(allowed) {
+      var _this5 = this;
+
+      //this.authUser.permissions.forEach(element => allowed['add'].includes(element.slug) ? this.permitted = true : this.permitted = false );  
+      this.authUser.permissions.forEach(function (element) {
+        if (_this5.permitted != true) {
+          allowed['add'].includes(element.slug) ? _this5.permitted = true : _this5.permitted = false;
+        }
+
+        if (_this5.permitEdit != true) {
+          allowed['edit'].includes(element.slug) ? _this5.permitEdit = true : _this5.permitEdit = false;
+        }
+
+        if (_this5.permitDelete != true) {
+          allowed['delete'].includes(element.slug) ? _this5.permitDelete = true : _this5.permitDelete = false;
+        }
+      });
     }
   },
   // end method
   mounted: function mounted() {
+    // Product New Button - Permission
+    this.permissionAccess(this.permitValidation);
     this.getProducts(1);
   }
 });
@@ -4213,7 +4240,12 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       axios.post("/builder/product/store", data).then(function (response) {
-        _this.$router.push("/builder/product/edit/" + response.data.product);
+        if (response.data.product) {
+          _this.$router.push("/builder/product/edit/" + response.data.product);
+        } else {
+          $('form div.v-input').html("");
+          $('form h3').html(response.data.message);
+        }
       })["catch"](function (error) {
         console.log("invalid");
         console.log(error.response);
@@ -31698,7 +31730,7 @@ var render = function() {
             "div",
             { staticClass: "d-flex align-center" },
             [
-              _vm.authUser.role < 5
+              _vm.permitted
                 ? _c(
                     "v-btn",
                     {
@@ -31867,7 +31899,7 @@ var render = function() {
                                     1
                                   ),
                                   _vm._v(" "),
-                                  _vm.authUser.role < 5
+                                  _vm.permitEdit
                                     ? _c(
                                         "v-btn",
                                         {
@@ -31894,7 +31926,7 @@ var render = function() {
                                       )
                                     : _vm._e(),
                                   _vm._v(" "),
-                                  _vm.authUser.role < 5
+                                  _vm.permitDelete
                                     ? _c(
                                         "v-btn",
                                         {

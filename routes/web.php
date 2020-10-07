@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Middleware\Role;
+ 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -46,9 +46,9 @@ Route::get('/builder', 'BuilderController@index')->name('builder');
 Route::get('/builder/products', 'BuilderController@index')->name('builder.products');
 Route::get('/builder/products/all', 'ProductsController@productsAPI')->name('builder.all.products'); 
 
-Route::group(["middleware" => "role:1,2,3,4,5,6,7,8"], function() {
-        // Settings
-        Route::get('/settings/watermarks', 'BuilderController@index')->name('settings.watermarks'); // with roles
+Route::group(["middleware" => 'role:super-admin|administrator|editor|free-user|basic-user|advanced-user|premium-user'], function() {
+    // Settings
+        Route::get('/settings/watermarks', 'BuilderController@index')->name('settings.watermarks');
         Route::get('/settings/watermarks/all', 'WatermarksController@fetchWatermarksForUploadZone')->name('settings.watermarks.uploadzone'); // needs to transfer to vuex!!
         Route::get('/settings/watermarks/page/{page}', 'BuilderController@index')->name('settings.watermarks.page');
         Route::get('/settings/watermarks/fetch', 'WatermarksController@fetchWatermarks')->name('settings.watermarks.fetch');
@@ -57,9 +57,7 @@ Route::group(["middleware" => "role:1,2,3,4,5,6,7,8"], function() {
         Route::get('/settings/watermark/get/{id}', 'WatermarksController@getWatermark')->name('settings.get.watermark');
         Route::post('/settings/watermark/delete/{id}', 'WatermarksController@destroy')->name('settings.watermark.delete');
         Route::post('/settings/watermark/update/{id}', 'WatermarksController@update')->name('settings.watermark.update');
-});
-
-Route::group(["middleware" => "role:1,2,3,5,6,7,8"], function() {
+ 
         // Organization
         Route::get('/settings/organization', 'BuilderController@index')->name('organization');
         Route::get('/settings/organization/fetch', 'SettingsController@fetchOrg')->name('fetch');
