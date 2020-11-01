@@ -261,6 +261,7 @@ var slideIndex = 1;
                     responsive: true, 
                     animate: false,
                     preloadCount: 6,
+                    frameTime: 300,
                     plugins: [ 
                     "drag", 
                     "360", 

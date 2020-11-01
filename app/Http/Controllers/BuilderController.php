@@ -15,9 +15,11 @@ class BuilderController extends Controller
     }
 
     public function index()
-    { 
+    {
         $usersAuth = User::with('permissions')->find(Auth::id());
+       
         return view('builder.index' , compact("usersAuth"));
+       
     }
 
     public function edit($id)

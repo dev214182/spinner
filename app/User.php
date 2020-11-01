@@ -45,7 +45,7 @@ class User extends Authenticatable
     /**
      * Setup Connections
      */
-    public function company()
+    public function company() 
     {
         return $this->belongsTo(Company::class);
     }

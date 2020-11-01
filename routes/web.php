@@ -46,6 +46,14 @@ Route::get('/builder', 'BuilderController@index')->name('builder');
 Route::get('/builder/products', 'BuilderController@index')->name('builder.products');
 Route::get('/builder/products/all', 'ProductsController@productsAPI')->name('builder.all.products'); 
 
+Route::group(["middleware" => 'role:super-admin|administrator|free-user|basic-user|advanced-user|premium-user'], function() {
+    Route::get('/settings/teams', 'BuilderController@index')->name('teams');
+    Route::post('/settings/team/delete/{id}', 'SettingsController@deleteOrgUser')->name('delete.team');
+    Route::post('/settings/team/update/{id}', 'SettingsController@updateOrgUser')->name('update.team');
+    Route::post('/settings/team/save', 'SettingsController@saveOrgUser')->name('save.team');
+    Route::post('/settings/team/search_data/{any}', 'SettingsController@searchData')->name('search.team'); 
+});
+
 Route::group(["middleware" => 'role:super-admin|administrator|editor|free-user|basic-user|advanced-user|premium-user'], function() {
     // Settings
         Route::get('/settings/watermarks', 'BuilderController@index')->name('settings.watermarks');
@@ -62,13 +70,7 @@ Route::group(["middleware" => 'role:super-admin|administrator|editor|free-user|b
         Route::get('/settings/organization', 'BuilderController@index')->name('organization');
         Route::get('/settings/organization/fetch', 'SettingsController@fetchOrg')->name('fetch');
         Route::post('/settings/organization/update', 'SettingsController@updateOrg')->name('update');
-        Route::get('/settings/get-org-users/{id}', 'SettingsController@getOrgUsers')->name('users');
-    
-        Route::get('/settings/teams', 'BuilderController@index')->name('teams');
-        Route::post('/settings/team/delete/{id}', 'SettingsController@deleteOrgUser')->name('delete.team');
-        Route::post('/settings/team/update/{id}', 'SettingsController@updateOrgUser')->name('update.team');
-        Route::post('/settings/team/save', 'SettingsController@saveOrgUser')->name('save.team');
-        Route::post('/settings/team/search_data/{any}', 'SettingsController@searchData')->name('search.team'); 
+        Route::get('/settings/get-org-users/{id}', 'SettingsController@getOrgUsers')->name('users'); 
 
         // Builder
         Route::get('/builder/product/new', 'BuilderController@index')->name('builder.new.product');
@@ -124,18 +126,16 @@ Route::group(["middleware" => 'role:super-admin|administrator|editor|free-user|b
 
         // Scenes
         Route::post('/scene/setposition', 'ItemsController@setPosition')->name('scene.position');
-});
+
+        /**
+         * Accounts
+         */
+        Route::get('/settings/account', 'BuilderController@index')->name('settings.account');
+        Route::get('/settings/account/fetch', 'SettingsController@fetchAccount')->name('settings.fetch.account');
+        Route::post('/settings/account/update', 'SettingsController@updateAccount')->name('settings.update.account');
+        Route::post('/settings/account/update_password', 'SettingsController@updateAccount_password')->name('settings.update.password');
 
 
-/**
- * Accounts
- */
-Route::get('/settings/account', 'BuilderController@index')->name('settings.account');
-Route::get('/settings/account/fetch', 'SettingsController@fetchAccount')->name('settings.fetch.account');
-Route::post('/settings/account/update', 'SettingsController@updateAccount')->name('settings.update.account');
-Route::post('/settings/account/update_password', 'SettingsController@updateAccount_password')->name('settings.update.password');
-
-
-Route::get('/product/{slug}', 'ProductsController@show')->name('single.product');
-Route::post('/product/delete/{id}', 'ProductsController@destroy')->name('product.delete');
-
+        Route::get('/product/{slug}', 'ProductsController@show')->name('single.product');
+        Route::post('/product/delete/{id}', 'ProductsController@destroy')->name('product.delete');
+}); 

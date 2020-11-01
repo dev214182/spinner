@@ -45,7 +45,10 @@ class ProductsController extends Controller
 
     public function productsAPI()
     {
-        if(Auth::user()->role == 5){
+        $user = Auth::user();
+        
+        //if(Auth::user()->role == 5){
+        if($user->hasRole('editor')){
             $userId = Auth::user()->id;
             $products = Product::where('user_id', $userId)->orderBy('created_at', 'desc')->paginate(10);
         }else{

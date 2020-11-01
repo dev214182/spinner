@@ -22,7 +22,7 @@ class UsersTableSeeder extends Seeder
         ]);
         $user->save();
         $user->roles()->sync([1]); // adding role_id 1 on table users_roles
-        $user->permissions()->sync([1]);
+        $user->permissions()->sync([1]); // adding permision id 1 on table users_permissions
 
         $user = new \App\User([
             'name'          => 'Steve Ayala',
@@ -35,7 +35,7 @@ class UsersTableSeeder extends Seeder
         ]);
         $user->save();
         $user->roles()->sync([2]); // adding role_id 2 on table users_roles   
-        $user->permissions()->sync([2,3,4,5]); // adding permision id 2 - 5 on table roles_permissions
+        $user->permissions()->sync([2,3,4,5]); // adding permision id 2 - 5 on table users_permissions
 
         $user = new \App\User([
             'name'          => 'Editor Account',
@@ -48,7 +48,7 @@ class UsersTableSeeder extends Seeder
         ]);
         $user->save();
         $user->roles()->sync([3]); // adding role_id 3 on table users_roles    
-        $user->permissions()->sync([2,3,4,5]); // adding permision id 2 - 5 on table roles_permissions
+        $user->permissions()->sync([2,3,4,5]); // adding permision id 2 - 5 on table users_permissions
          
     }
 }
