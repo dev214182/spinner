@@ -40,7 +40,7 @@
           <div class="open-interior">interior</div>
             <!-- <div class="divider"></div> -->
           <div class="videos img">VIDEOS</div>
-          <div class="photos img">PHOTOS</div>
+          <!-- <div class="photos img">PHOTOS</div> -->
         </div>
 
         <div class="display-videos-thumbnails">

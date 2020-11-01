@@ -150,7 +150,7 @@ var slideIndex = 1;
                    hpSlider += '<div class="mySlides text-center" id="'+o.id+'">';
                   
                    if(hpContents && hpContents.image){ 
-                    hpThumbnailSlider += '<div class="thumbnail-slider"><img  width="100%" height="auto" src="'+hpContents.image+'" style="width:100%" alt="'+o.title+'" /></div>';
+                    hpThumbnailSlider += '<div class="thumbnail-slider thumbnail-point"><a href="#" data-ids="'+ cnts +'"><img  width="100%" height="auto" src="'+hpContents.image+'" style="width:100%" alt="'+o.title+'" /></a></div>';
                     hpSlider +=       '<img  width="100%" height="auto" src="'+hpContents.image+'" style="width:100%" alt="'+o.title+'" />';
                   }
                   hpSlider += '<div class="hp-contents">';
@@ -350,7 +350,7 @@ var slideIndex = 1;
                       * HotSpot
                       * */
                       //open interest point description
-                      $(".cd-single-point")
+                      $(".cd-single-point, .thumbnail-point")
                         .children("a")
                         .on("click", function (e) {
                             e.preventDefault();
