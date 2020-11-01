@@ -98,7 +98,7 @@ var slideIndex = 1;
             
                 var intHps = [];
                 var cnts = 1;
-
+                var cntsss = 1;
                 var hpLabel = '';  
                
                 let hpSlider = ''; 
@@ -150,7 +150,7 @@ var slideIndex = 1;
                    hpSlider += '<div class="mySlides text-center" id="'+o.id+'">';
                   
                    if(hpContents && hpContents.image){ 
-                    hpThumbnailSlider += '<div class="thumbnail-slider thumbnail-point"><a href="#" data-ids="'+ cnts +'"><img  width="100%" height="auto" src="'+hpContents.image+'" style="width:100%" alt="'+o.title+'" /></a></div>';
+                    hpThumbnailSlider += '<div class="thumbnail-slider thumbnail-point"><a href="#" data-ids="'+ cntsss++ +'"><img  width="100%" height="auto" src="'+hpContents.image+'" style="width:100%" alt="'+o.title+'" /></a></div>';
                     hpSlider +=       '<img  width="100%" height="auto" src="'+hpContents.image+'" style="width:100%" alt="'+o.title+'" />';
                   }
                   hpSlider += '<div class="hp-contents">';
@@ -338,8 +338,8 @@ var slideIndex = 1;
             $('#hp-draggable').html(hpLabel);  
                $('.carousel-photos').slick({
                   infinite: true,
-                  slidesToShow: 6,
-                  slidesToScroll: 6
+                  slidesToShow: 5,
+                  slidesToScroll: 5
                 });
               
                 if(data.hpItems.length > 0){
