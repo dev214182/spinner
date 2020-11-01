@@ -392,8 +392,11 @@ display: none;
 border: 2px solid #007bc3;
 z-index: 9;
 }
-    
-  
+.slick-prev, .slick-next{ width: 30px  !important;
+    height: 30px  !important;background: #E3B226 !important;
+    border-radius: 5px  !important; color: #fff !important;}
+  .carousel-photos { margin: 0px 50px; }
+  .carousel-photos .slick-slide{ margin: 0 20px !important; width: 214px !important;}
   .slick-slide{ width: 230px !important;}
   .slick-track { min-width: 1000px;}
   .video-slider{ margin-top: -187px; background: rgb(0 0 0 / 25%); }
