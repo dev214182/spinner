@@ -45,6 +45,7 @@ Route::get('/restricted', 'BuilderController@index')->name('builder.dashboard');
 Route::get('/builder', 'BuilderController@index')->name('builder');
 Route::get('/builder/products', 'BuilderController@index')->name('builder.products');
 Route::get('/builder/products/all', 'ProductsController@productsAPI')->name('builder.all.products'); 
+Route::get('/product/{slug}', 'ProductsController@show')->name('single.product');
 
 Route::group(["middleware" => 'role:super-admin|administrator|free-user|basic-user|advanced-user|premium-user'], function() {
     Route::get('/settings/teams', 'BuilderController@index')->name('teams');
@@ -136,6 +137,6 @@ Route::group(["middleware" => 'role:super-admin|administrator|editor|free-user|b
         Route::post('/settings/account/update_password', 'SettingsController@updateAccount_password')->name('settings.update.password');
 
 
-        Route::get('/product/{slug}', 'ProductsController@show')->name('single.product');
+      
         Route::post('/product/delete/{id}', 'ProductsController@destroy')->name('product.delete');
 }); 

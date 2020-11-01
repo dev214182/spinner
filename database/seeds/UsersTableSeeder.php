@@ -49,6 +49,32 @@ class UsersTableSeeder extends Seeder
         $user->save();
         $user->roles()->sync([3]); // adding role_id 3 on table users_roles    
         $user->permissions()->sync([2,3,4,5]); // adding permision id 2 - 5 on table users_permissions
+
+        $user = new \App\User([
+            'name'          => 'Moatasem',
+            'email'         => 'moatasem@gagroup.net',
+            'password'      => Hash::make('gag@112211'),
+            'phone'         => '05012345678',
+            'role'          => 2,
+            'status'        => true,
+            'company_id'    => 1,
+        ]);
+        $user->save();
+        $user->roles()->sync([3]); // adding role_id 3 on table users_roles    
+        $user->permissions()->sync([2,3,4,5]); // adding permision id 2 - 5 on table users_permissions
+
+        $user = new \App\User([
+            'name'          => 'Loay',
+            'email'         => 'loay.a@gagroup.net',
+            'password'      => Hash::make('gag@112211'),
+            'phone'         => '05012345678',
+            'role'          => 2,
+            'status'        => true,
+            'company_id'    => 1,
+        ]);
+        $user->save();
+        $user->roles()->sync([3]); // adding role_id 3 on table users_roles    
+        $user->permissions()->sync([2,3,4,5]); // adding permision id 2 - 5 on table users_permissions
          
     }
 }
