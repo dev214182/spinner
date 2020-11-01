@@ -274,7 +274,7 @@ display: none;
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background-color: black;
+  background-color: transparent;
 }
 
 /* Modal Content */
@@ -283,7 +283,7 @@ display: none;
   background-color: #fefefe;
   margin: auto;
   padding: 0;
-  width: 90%;
+  width: 100%;
   max-width: 1200px;
  
 }
@@ -511,8 +511,8 @@ var base_url = "{{URL::to('/')}}";
 <meta property="og:type" content="website">
 <meta property="og:url" content="{{URL::to('/')}}">
 
-<meta name="description" content="Gallega - Spinner by GAG IT Department">
-<meta property="og:description" content="Gallega - Spinner by GAG IT Department">
+<meta name="description" content="GAG - Spinner by GAG IT Department">
+<meta property="og:description" content="GAG - Spinner by GAG IT Department">
  
 </head>
 
