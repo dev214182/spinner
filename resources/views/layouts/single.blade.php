@@ -9,7 +9,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     {{-- <title>{{ config('app.name', 'Laravel') }}</title> --}}
-    <title>Gallega Spinner</title> 
+    <title>Vehicle Spinner</title> 
   
     <style>
     html, body { margin: 0; padding: 0;}
@@ -21,7 +21,7 @@
         #panorama {
         width: 100%;
          
-        min-height:450px;
+        min-height:640px;
       }
       .custom-hotspot{ 
         border-radius: 50%;
