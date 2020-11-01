@@ -30,7 +30,8 @@ class BuilderController extends Controller
         
         // Restrict Users to access other company's product pages
         if($product && $product->company_id == $userCompanyId ){
-            return view('builder.index');
+             $usersAuth = User::with('permissions')->find(Auth::id());
+             return view('builder.index' , compact("usersAuth"));
         }
         return abort(404);
     }

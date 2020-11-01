@@ -35,19 +35,20 @@
       </div>
     </div>
 
-    <div class="content-action">
-      <div class="open-exterior active">exterior</div>
-      <div class="open-interior">interior</div>
-        <div class="divider"></div>
-      <div class="videos img">VIDEOS</div>
-      <div class="photos img">PHOTOS</div>
-    </div>
+        <div class="content-action">
+          <div class="open-exterior active">exterior</div>
+          <div class="open-interior">interior</div>
+            <!-- <div class="divider"></div> -->
+          <div class="videos img">VIDEOS</div>
+          <div class="photos img">PHOTOS</div>
+        </div>
 
         <div class="display-videos-thumbnails">
               <div class="video-slider slider">  
               </div>
         </div>
 
+        <div class="carousel-photos"> </div><!-- End photos  -->
   </div> 
 
   <div id="myModal" class="modal fade" role="dialog">
