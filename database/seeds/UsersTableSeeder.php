@@ -21,6 +21,9 @@ class UsersTableSeeder extends Seeder
             'company_id'    => 1,
         ]);
         $user->save();
+        $user->roles()->sync([1]); // adding role_id 1 on table users_roles
+        $user->permissions()->sync([1]); // adding permision id 1 on table users_permissions
+
         $user = new \App\User([
             'name'          => 'Steve Ayala',
             'email'         => 'jacob@gagroup.net',
@@ -31,6 +34,9 @@ class UsersTableSeeder extends Seeder
             'company_id'    => 1,
         ]);
         $user->save();
+        $user->roles()->sync([2]); // adding role_id 2 on table users_roles   
+        $user->permissions()->sync([2,3,4,5]); // adding permision id 2 - 5 on table users_permissions
+
         $user = new \App\User([
             'name'          => 'Editor Account',
             'email'         => 'editor@editor.com',
@@ -41,18 +47,8 @@ class UsersTableSeeder extends Seeder
             'company_id'    => 1,
         ]);
         $user->save();
-
-        // $faker = Faker\Factory::create();
-    	// foreach (range(1,50) as $index) {
-	    //     DB::table('users')->insert([
-        //         'name'          => $faker->name,
-        //         'email'         => $faker->email,
-        //         'password'      => Hash::make('123456789'),
-        //         'phone'         => '05012345678',
-        //         'role'          => 4,
-        //         'status'        => true,
-        //         'company_id'    => 1,
-	    //     ]);
-	    // }
+        $user->roles()->sync([3]); // adding role_id 3 on table users_roles    
+        $user->permissions()->sync([2,3,4,5]); // adding permision id 2 - 5 on table users_permissions
+         
     }
 }

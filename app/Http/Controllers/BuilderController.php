@@ -16,11 +16,15 @@ class BuilderController extends Controller
 
     public function index()
     {
-        return view('builder.index');
+        $usersAuth = User::with('permissions')->find(Auth::id());
+       
+        return view('builder.index' , compact("usersAuth"));
+       
     }
 
     public function edit($id)
-    {
+    { 
+      
         $userCompanyId = Auth::user()->company_id;
         $product = Product::where('id', '=', $id)->firstOrFail();
         

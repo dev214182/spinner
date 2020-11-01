@@ -4042,7 +4042,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -4051,6 +4050,14 @@ __webpack_require__.r(__webpack_exports__);
   name: "Products",
   data: function data() {
     return {
+      permitted: false,
+      permitEdit: false,
+      permitDelete: false,
+      permitValidation: {
+        add: ['all-permission', 'c-only'],
+        edit: ['all-permission', 'u-only'],
+        "delete": ['all-permission', 'd-only']
+      },
       authUser: this.$authUser,
       searchProduct: "",
       newProductDialog: false,
@@ -4146,10 +4153,30 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         this.getProducts(1);
       }
+    },
+    permissionAccess: function permissionAccess(allowed) {
+      var _this5 = this;
+
+      //this.authUser.permissions.forEach(element => allowed['add'].includes(element.slug) ? this.permitted = true : this.permitted = false );  
+      this.authUser.permissions.forEach(function (element) {
+        if (_this5.permitted != true) {
+          allowed['add'].includes(element.slug) ? _this5.permitted = true : _this5.permitted = false;
+        }
+
+        if (_this5.permitEdit != true) {
+          allowed['edit'].includes(element.slug) ? _this5.permitEdit = true : _this5.permitEdit = false;
+        }
+
+        if (_this5.permitDelete != true) {
+          allowed['delete'].includes(element.slug) ? _this5.permitDelete = true : _this5.permitDelete = false;
+        }
+      });
     }
   },
   // end method
   mounted: function mounted() {
+    // Product New Button - Permission
+    this.permissionAccess(this.permitValidation);
     this.getProducts(1);
   }
 });
@@ -4213,7 +4240,12 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       axios.post("/builder/product/store", data).then(function (response) {
-        _this.$router.push("/builder/product/edit/" + response.data.product);
+        if (response.data.product) {
+          _this.$router.push("/builder/product/edit/" + response.data.product);
+        } else {
+          $('form div.v-input').html("");
+          $('form h3').html(response.data.message);
+        }
       })["catch"](function (error) {
         console.log("invalid");
         console.log(error.response);
@@ -6721,6 +6753,122 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -6730,6 +6878,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      selectedPermission: ['1'],
+      updatePermission: [],
+      arr: [],
       authUser: this.$authUser,
       color: '',
       mode: 'vertical',
@@ -6750,12 +6901,22 @@ __webpack_require__.r(__webpack_exports__);
       orgUsers: [],
       // Company Users
       roleItems: [{
-        role: "Team Admin",
-        value: 3
+        role: "Administrator",
+        value: 2
       }, {
         role: "Team Editor",
+        value: 3
+      }, {
+        role: "Free User",
         value: 4
       }],
+      // permissionItems: [
+      //   { role: "All Access", value: 1 },
+      //   { role: "Create", value: 2 },
+      //   { role: "Update", value: 3 },
+      //   { role: "Viewing", value: 4 },
+      //   { role: "Delete", value: 5 },
+      // ],
       show1: false,
       newname: "",
       newemail: "",
@@ -6777,18 +6938,37 @@ __webpack_require__.r(__webpack_exports__);
       if (role == 1) {
         roleLabel = "Super Admin";
       } else if (role == 2) {
-        roleLabel = "App Admin";
+        roleLabel = "Administrator";
       } else if (role == 3) {
-        roleLabel = "Admin";
-      } else {
         roleLabel = "Editor";
+      } else {
+        roleLabel = "Free";
+      }
+
+      return roleLabel;
+    },
+    printPermission: function printPermission(role) {
+      var roleLabel = "";
+
+      if (role == 'all-permission') {
+        roleLabel = "All Access";
+      } else if (role == 'c-only') {
+        roleLabel = "Create";
+      } else if (role == 'u-only') {
+        roleLabel = "Update";
+      } else if (role == 'v-only') {
+        roleLabel = "View only";
+      } else {
+        roleLabel = "Delete";
       }
 
       return roleLabel;
     },
     actionFunction: function actionFunction(action, value) {
+      this.arr = [];
       this.dialogData = [];
       this.dialogData = value;
+      console.log(this.dialogData.permissions);
 
       if (action == "edit") {
         this.userFormDialog = true;
@@ -6797,12 +6977,17 @@ __webpack_require__.r(__webpack_exports__);
         this.password = this.dialogData.password;
         this.phone = this.dialogData.phone ? this.dialogData.phone : "";
         this.role = {
-          role: this.dialogData.role == 3 ? "Admin" : "Editor",
+          role: this.dialogData.role == 2 ? "Admin" : this.dialogData.role == 2 ? "Editor" : "Free",
           value: this.dialogData.role
         };
+        this.dialogData.permissions.forEach(this.getPermissions);
+        this.updatePermission = this.arr;
       } else {
         this.deleteDialog = true;
       }
+    },
+    getPermissions: function getPermissions(item, index) {
+      this.arr.push('' + item.id + '');
     },
     confirmDelete: function confirmDelete() {
       var _this = this;
@@ -6834,7 +7019,8 @@ __webpack_require__.r(__webpack_exports__);
         data = {
           name: this.name,
           phone: this.phone,
-          role: this.role.value
+          role: this.role.value,
+          permissions: this.updatePermission
         };
 
         if (this.email != this.dialogData.email) {
@@ -6848,7 +7034,8 @@ __webpack_require__.r(__webpack_exports__);
           phone: this.newphone,
           role: this.newrole.value,
           email: this.newemail,
-          password: this.password
+          password: this.password,
+          permissions: this.selectedPermission
         };
         $.each(data, function (key, value) {
           if (value === "undefined" || value == "" || value == null) {
@@ -6891,7 +7078,7 @@ __webpack_require__.r(__webpack_exports__);
           _this2.color = "error";
           _this2.x = "right";
           _this2.y = "top";
-          _this2.text = error.response.data.errors.email[0];
+          _this2.text = error.response.data.message;
         }
       });
     },
@@ -6902,6 +7089,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this3 = this;
 
       axios.get("/settings/get-org-users/" + this.authUser.company_id + "?page=" + p).then(function (response) {
+        console.log(response);
         _this3.orgUsers = response.data.data;
         _this3.page = response.data.current_page;
         _this3.pageCount = response.data.last_page; // console.log(response);
@@ -31698,26 +31886,32 @@ var render = function() {
             "div",
             { staticClass: "d-flex align-center" },
             [
-              _c(
-                "v-btn",
-                {
-                  staticClass: "mr-3 text--primary",
-                  attrs: {
-                    elevation: "2",
-                    fab: "",
-                    dark: "",
-                    "x-small": "",
-                    color: "white"
-                  },
-                  on: {
-                    click: function($event) {
-                      _vm.newProductDialog = true
-                    }
-                  }
-                },
-                [_c("v-icon", { attrs: { dark: "" } }, [_vm._v("mdi-plus")])],
-                1
-              ),
+              _vm.permitted
+                ? _c(
+                    "v-btn",
+                    {
+                      staticClass: "mr-3 text--primary",
+                      attrs: {
+                        elevation: "2",
+                        fab: "",
+                        dark: "",
+                        "x-small": "",
+                        color: "white"
+                      },
+                      on: {
+                        click: function($event) {
+                          _vm.newProductDialog = true
+                        }
+                      }
+                    },
+                    [
+                      _c("v-icon", { attrs: { dark: "" } }, [
+                        _vm._v("mdi-plus")
+                      ])
+                    ],
+                    1
+                  )
+                : _vm._e(),
               _vm._v(" "),
               _c("h3", { staticClass: "font-weight-light" }, [
                 _vm._v("Products")
@@ -31861,7 +32055,7 @@ var render = function() {
                                     1
                                   ),
                                   _vm._v(" "),
-                                  _vm.authUser.role < 5
+                                  _vm.permitEdit
                                     ? _c(
                                         "v-btn",
                                         {
@@ -31888,7 +32082,7 @@ var render = function() {
                                       )
                                     : _vm._e(),
                                   _vm._v(" "),
-                                  _vm.authUser.role < 5
+                                  _vm.permitDelete
                                     ? _c(
                                         "v-btn",
                                         {
@@ -35248,6 +35442,10 @@ var render = function() {
                               _vm._v("Role")
                             ]),
                             _vm._v(" "),
+                            _c("th", { staticClass: "text-left" }, [
+                              _vm._v("Permissions")
+                            ]),
+                            _vm._v(" "),
                             _c("th", { staticClass: "text-right" }, [
                               _vm._v("Actions")
                             ])
@@ -35272,9 +35470,21 @@ var render = function() {
                                 "td",
                                 {
                                   class:
-                                    "" + (item.role < 4 ? "primary--text" : "")
+                                    "" + (item.role < 3 ? "primary--text" : "")
                                 },
                                 [_vm._v(_vm._s(_vm.printRole(item.role)))]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "td",
+                                _vm._l(item.permissions, function(permit) {
+                                  return _c("div", { key: permit.id }, [
+                                    _vm._v(
+                                      _vm._s(_vm.printPermission(permit.slug))
+                                    )
+                                  ])
+                                }),
+                                0
                               ),
                               _vm._v(" "),
                               _c("td", { staticClass: "text-right" }, [
@@ -35575,6 +35785,113 @@ var render = function() {
                         }),
                         _vm._v(" "),
                         _c(
+                          "v-row",
+                          [
+                            _c(
+                              "v-col",
+                              { attrs: { cols: "12", sm: "4", md: "4" } },
+                              [
+                                _c("v-checkbox", {
+                                  attrs: {
+                                    label: "All Permission",
+                                    color: "red",
+                                    value: "1",
+                                    "hide-details": ""
+                                  },
+                                  model: {
+                                    value: _vm.selectedPermission,
+                                    callback: function($$v) {
+                                      _vm.selectedPermission = $$v
+                                    },
+                                    expression: "selectedPermission"
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("v-checkbox", {
+                                  attrs: {
+                                    label: "Create",
+                                    color: "red",
+                                    value: "2",
+                                    "hide-details": ""
+                                  },
+                                  model: {
+                                    value: _vm.selectedPermission,
+                                    callback: function($$v) {
+                                      _vm.selectedPermission = $$v
+                                    },
+                                    expression: "selectedPermission"
+                                  }
+                                })
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-col",
+                              { attrs: { cols: "12", sm: "4", md: "4" } },
+                              [
+                                _c("v-checkbox", {
+                                  attrs: {
+                                    label: "Update",
+                                    color: "red",
+                                    value: "3",
+                                    "hide-details": ""
+                                  },
+                                  model: {
+                                    value: _vm.selectedPermission,
+                                    callback: function($$v) {
+                                      _vm.selectedPermission = $$v
+                                    },
+                                    expression: "selectedPermission"
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("v-checkbox", {
+                                  attrs: {
+                                    label: "Delete",
+                                    color: "red",
+                                    value: "5",
+                                    "hide-details": ""
+                                  },
+                                  model: {
+                                    value: _vm.selectedPermission,
+                                    callback: function($$v) {
+                                      _vm.selectedPermission = $$v
+                                    },
+                                    expression: "selectedPermission"
+                                  }
+                                })
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-col",
+                              { attrs: { cols: "12", sm: "4", md: "4" } },
+                              [
+                                _c("v-checkbox", {
+                                  attrs: {
+                                    label: "Viewing Only",
+                                    color: "red",
+                                    value: "4",
+                                    "hide-details": ""
+                                  },
+                                  model: {
+                                    value: _vm.selectedPermission,
+                                    callback: function($$v) {
+                                      _vm.selectedPermission = $$v
+                                    },
+                                    expression: "selectedPermission"
+                                  }
+                                })
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
                           "div",
                           { staticClass: "d-flex justify-end" },
                           [
@@ -35718,6 +36035,113 @@ var render = function() {
                         expression: "role"
                       }
                     }),
+                    _vm._v(" "),
+                    _c(
+                      "v-row",
+                      [
+                        _c(
+                          "v-col",
+                          { attrs: { cols: "12", sm: "4", md: "4" } },
+                          [
+                            _c("v-checkbox", {
+                              attrs: {
+                                label: "All Permission",
+                                color: "red",
+                                value: "1",
+                                "hide-details": ""
+                              },
+                              model: {
+                                value: _vm.updatePermission,
+                                callback: function($$v) {
+                                  _vm.updatePermission = $$v
+                                },
+                                expression: "updatePermission"
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("v-checkbox", {
+                              attrs: {
+                                label: "Create",
+                                color: "red",
+                                value: "2",
+                                "hide-details": ""
+                              },
+                              model: {
+                                value: _vm.updatePermission,
+                                callback: function($$v) {
+                                  _vm.updatePermission = $$v
+                                },
+                                expression: "updatePermission"
+                              }
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "v-col",
+                          { attrs: { cols: "12", sm: "4", md: "4" } },
+                          [
+                            _c("v-checkbox", {
+                              attrs: {
+                                label: "Update",
+                                color: "red",
+                                value: "3",
+                                "hide-details": ""
+                              },
+                              model: {
+                                value: _vm.updatePermission,
+                                callback: function($$v) {
+                                  _vm.updatePermission = $$v
+                                },
+                                expression: "updatePermission"
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("v-checkbox", {
+                              attrs: {
+                                label: "Delete",
+                                color: "red",
+                                value: "5",
+                                "hide-details": ""
+                              },
+                              model: {
+                                value: _vm.updatePermission,
+                                callback: function($$v) {
+                                  _vm.updatePermission = $$v
+                                },
+                                expression: "updatePermission"
+                              }
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "v-col",
+                          { attrs: { cols: "12", sm: "4", md: "4" } },
+                          [
+                            _c("v-checkbox", {
+                              attrs: {
+                                label: "Viewing Only",
+                                color: "red",
+                                value: "4",
+                                "hide-details": ""
+                              },
+                              model: {
+                                value: _vm.updatePermission,
+                                callback: function($$v) {
+                                  _vm.updatePermission = $$v
+                                },
+                                expression: "updatePermission"
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    ),
                     _vm._v(" "),
                     _c(
                       "div",

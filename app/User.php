@@ -4,13 +4,16 @@ namespace App;
 
 use App\Company;
 use App\Product;
+use App\Permission;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Permissions\HasPermissionsTrait;
 
 class User extends Authenticatable
 {
     use Notifiable;
+    use HasPermissionsTrait; //Import The Trait
 
     /**
      * The attributes that are mass assignable.
@@ -42,7 +45,7 @@ class User extends Authenticatable
     /**
      * Setup Connections
      */
-    public function company()
+    public function company() 
     {
         return $this->belongsTo(Company::class);
     }
@@ -52,6 +55,7 @@ class User extends Authenticatable
         return $this->hasMany(Product::class);
     }
 
+   
     /**
      * User Roles
      * 1. Super Admin

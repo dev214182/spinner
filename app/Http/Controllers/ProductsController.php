@@ -28,6 +28,7 @@ class ProductsController extends Controller
 
     public function fetch($id)
     { 
+       
         $product = Product::where('id', '=', $id)->firstOrFail();
         return response()->json($product, 200);
       
@@ -44,7 +45,10 @@ class ProductsController extends Controller
 
     public function productsAPI()
     {
-        if(Auth::user()->role == 5){
+        $user = Auth::user();
+        
+        //if(Auth::user()->role == 5){
+        if($user->hasRole('editor')){
             $userId = Auth::user()->id;
             $products = Product::where('user_id', $userId)->orderBy('created_at', 'desc')->paginate(10);
         }else{
@@ -62,7 +66,6 @@ class ProductsController extends Controller
                                 $query->where('slug', '=', $id)
                                     ->orWhere('id', '=', $id);
         })->with('user','items','items.media_file','items.hotspot_setting')->get();
-
        
         if(@count($products) > 0){
             $hotspot = Hotspot::where('product_id', '=', $products[0]->id)->orderBy("hotspot_for")->get(); 
@@ -91,6 +94,14 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
+      
+        if (!$request->user()->can('all-permission') && !$request->user()->can('c-only') && !$request->user()->can('c-u-only') && !$request->user()->can('c-d-only')) { 
+            return response()->json([
+                        'product' => false,
+                        'message' => 'You dont have permission to create',
+                    ], 200);
+        }
+
         $company_id = Auth::user()->company_id;
         // validate request 
 

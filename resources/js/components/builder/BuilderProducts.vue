@@ -2,15 +2,15 @@
   <v-row>
     <v-col cols="9" class="px-5">
       <div class="d-flex align-center">
-        <!-- to="/builder/product/new" -->
-        <v-btn
-          @click="newProductDialog = true"
-          class="mr-3 text--primary"
-          elevation="2"
-          fab
-          dark
-          x-small
-          color="white"
+        <!-- to="/builder/product/new""-->
+        <v-btn  v-if="permitted"
+              @click="newProductDialog = true"
+              class="mr-3 text--primary"
+              elevation="2"
+              fab
+              dark
+              x-small
+              color="white"
         >
           <v-icon dark>mdi-plus</v-icon>
         </v-btn> 
@@ -24,8 +24,7 @@
             append-icon="mdi-cloud-search-outline"  
             outlined label="Search" required class="py-0" dense
             @click:append.prevent="searchButton"
-          ></v-text-field>
-             
+          ></v-text-field> 
           
       </div>
       <v-card>
@@ -69,14 +68,14 @@
                   >
                     <v-icon small>mdi-open-in-new</v-icon>
                   </v-btn>
-                 
-                      <v-btn v-if="authUser.role < 5" title="Edit" icon small @click="editProduct(item.id)" color="blue">
+                 <!-- v-if="permissionAccess(['all-permission','u-only'])" v-if="permissionAccess(['all-permission','d-only'])"-->
+                      <v-btn v-if="permitEdit" title="Edit" icon small @click="editProduct(item.id)" color="blue">
                         <v-icon small>mdi-pencil</v-icon>
                       </v-btn>
-                      <v-btn v-if="authUser.role < 5" title="Delete" icon small @click="actionFn(item)" color="red">
+                     
+                      <v-btn v-if="permitDelete" title="Delete" icon small @click="actionFn(item)" color="red">
                         <v-icon small>mdi-trash-can-outline</v-icon>
-                      </v-btn>
-                   
+                      </v-btn> 
                 </td>
               </tr>
             </tbody>
@@ -137,7 +136,15 @@ export default {
   },
   name: "Products",
   data() {
-    return {
+    return {   
+      permitted: false,
+      permitEdit: false,
+      permitDelete: false,
+      permitValidation : {
+        add : ['all-permission','c-only'],
+        edit:  ['all-permission','u-only'],
+        delete:  ['all-permission', 'd-only'],
+      },
       authUser: this.$authUser,
       searchProduct: "",
       newProductDialog: false,
@@ -200,13 +207,14 @@ export default {
     editProduct(i) {
       this.$router.push("/builder/product/edit/" + i);
     },
-    getProducts(p) {
+    getProducts(p) {  
+    
       axios
         .get("/builder/products/all/?page=" + p)
         .then((response) => {
           this.products = response.data.data;
           this.page = response.data.current_page;
-          this.pageCount = response.data.last_page;
+          this.pageCount = response.data.last_page; 
         })
         .catch((error) => {
           console.log("Error: " + error);
@@ -245,14 +253,30 @@ export default {
               console.log(error);
             });
       }else{
-        this.getProducts(1); 
+        this.getProducts(1);  
       }
-    },
- 
+    }, 
+    permissionAccess(allowed){  
+          
+          //this.authUser.permissions.forEach(element => allowed['add'].includes(element.slug) ? this.permitted = true : this.permitted = false );  
+          this.authUser.permissions.forEach((element) => {
+                                                            if(this.permitted != true){ 
+                                                              allowed['add'].includes(element.slug) ? this.permitted = true : this.permitted = false;
+                                                            }
+                                                            if(this.permitEdit != true){ 
+                                                              allowed['edit'].includes(element.slug) ? this.permitEdit = true : this.permitEdit = false;
+                                                            }
+                                                            if(this.permitDelete != true){ 
+                                                              allowed['delete'].includes(element.slug) ? this.permitDelete = true : this.permitDelete = false;
+                                                            } 
+                                                        } );   
+      }
 
   }, // end method
- 
+  
   mounted() {
+    // Product New Button - Permission
+    this.permissionAccess(this.permitValidation);
     this.getProducts(1); 
   },
 };

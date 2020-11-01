@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Company;
+ 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-
+ 
 class SettingsController extends Controller
 {
     public function __construct()
@@ -54,15 +55,24 @@ class SettingsController extends Controller
     public function getOrgUsers($id)    
     {   
         if(Auth::user()->id > 1){
-            $users = User::where('company_id', $id)->where('role', "<>", 1)->orderBy('role', 'asc')->orderBy('created_at', 'desc')->paginate(10);
+            $users = User::with('permissions')->where('company_id', $id)->where('role', "<>", 1)->orderBy('role', 'asc')->orderBy('created_at', 'desc')->paginate(10);
+            //$users = User::where('company_id', $id)->where('role', "<>", 1)->orderBy('role', 'asc')->orderBy('created_at', 'desc')->paginate(10);
         }else{
-            $users = User::where('company_id', $id)->orderBy('role', 'asc')->orderBy('role', 'asc')->orderBy('created_at', 'desc')->paginate(10);
+            $users = User::with('permissions')->where('company_id', $id)->orderBy('role', 'asc')->orderBy('role', 'asc')->orderBy('created_at', 'desc')->paginate(10);
         }
         return response()->json($users, 200);
     }
 
     public function updateOrg(Request $request)
     {
+
+        $user = $request->user();
+        if(!$user->can('all-permission') && !$user->can('u-only')){
+            return response()->json([
+                'message' => 'You dont have permission / cannot remove remaining admin',
+            ], 422);
+        }
+
         $company = Company::where('id', Auth::user()->company_id)->firstOrFail();
         $company->update($this->validateOrgRequest());
         return response()->json([
@@ -75,15 +85,14 @@ class SettingsController extends Controller
      */
     public function deleteOrgUser($id)
     {
-        $user = User::where('id', $id)->firstOrFail();
-
-        if(Auth::user()->id > 1){
-            if($user->role == 3 && $this->hasOneAdmin() == false){
+        $user = User::where('id', $id)->firstOrFail(); 
+         
+        if(!$user->can('all-permission') && !$user->can('d-only')  && $this->hasOneAdmin() == false){
                 return response()->json([
-                    'message' => 'Unable to delete user. A team should have at least one Administrator.',
+                    'message' => 'You dont have permission / cannot remove remaining admin',
                 ], 422);
-            }
         }
+         
 
         $user->delete();
         return response()->json([
@@ -93,22 +102,21 @@ class SettingsController extends Controller
     public function updateOrgUser(Request $request, $id)
     {
         $user = User::where('id', $id)->firstOrFail();
-        if(Auth::user()->id > 1){
-            if($this->hasOneAdmin() == false && ($user->role == 3 && $request->role != 3) ){
+        if(!$user->can('all-permission') && !$user->can('u-only') ){
                 return response()->json([
-                    'message' => 'Unable to update user. A team should have at least one Administrator.',
+                    'message' => 'You dont have permission',
                 ], 422);
-            }
+          
         }
         $user->update($this->validateOrgTeamRequest());
+        $user->roles()->sync($request->role); // adding role_id 3 on table users_roles    
+        $user->permissions()->sync($request->permissions); // adding permision id 2 - 5 on table users_permissions
         return response()->json([
             'message' => 'User has been updated',
         ], 200);
     }
 
-    public function searchData($search)
-    {
-       
+    public function searchData($search) { 
         $company_id = Auth::user()->company_id;
         $user = User::where('company_id', $company_id)->where('name', 'like', '%'.$search.'%')->orWhere('phone', 'like', '%'.$search.'%')->orderBy('name', 'asc')->paginate(10);
         
@@ -118,8 +126,16 @@ class SettingsController extends Controller
     public function saveOrgUser(Request $request)
     {
         $this->validateNewTeamRequest(); 
+        $user = $request->user();
+        if(!$user->can('all-permission') && !$user->can('c-only')){
+            return response()->json([
+                'message' => 'You dont have permission',
+            ], 422);
+      
+        }
+       
         // store request
-        $product = User::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'role' => $request->role,
@@ -127,7 +143,9 @@ class SettingsController extends Controller
             'status' => 1,
             'password' => Hash::make($request->password),
             'company_id' => Auth::user()->company_id
-        ]);
+        ]); 
+        $user->roles()->sync($request->role); // adding role_id 3 on table users_roles    
+        $user->permissions()->sync($request->permissions); // adding permision id 2 - 5 on table users_permissions
        
         // response
         return response()->json([  

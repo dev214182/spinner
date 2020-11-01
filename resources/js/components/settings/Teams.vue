@@ -37,6 +37,7 @@
                 <!-- <th class="text-left">Status</th> -->
                 <th class="text-left">Phone</th>
                 <th class="text-left">Role</th>
+                <th class="text-left">Permissions</th>
                 <th class="text-right">Actions</th>
               </tr>
             </thead>
@@ -45,7 +46,8 @@
                 <td>{{ item.name }}</td>
                 <td>{{ item.email }}</td>
                 <td>{{ item.phone ? item.phone : "not set" }}</td>
-                <td :class="`${item.role < 4 ? 'primary--text': ''}`">{{ printRole(item.role) }}</td>
+                <td :class="`${item.role < 3 ? 'primary--text': ''}`">{{ printRole(item.role) }}</td>
+                <td> <div  v-for="permit in item.permissions" :key="permit.id">{{ printPermission(permit.slug) }}</div></td>
                 <!-- <td
                   :class="`${item.status == 1 ? 'green--text' : 'blue--text'} text-left`"
                 >{{ item.status == 1 ? 'active' : 'inactive' }}</td>-->
@@ -122,6 +124,63 @@
               dense
             ></v-select>
              </ValidationProvider>
+             
+             <v-row>
+                <v-col
+                  cols="12"
+                  sm="4"
+                  md="4"
+                >
+                  <v-checkbox 
+                   v-model="selectedPermission"
+                    label="All Permission"
+                    color="red"
+                    value="1"
+                    hide-details
+                  ></v-checkbox>
+                  <v-checkbox
+                    v-model="selectedPermission"
+                    label="Create"
+                    color="red"
+                    value="2"
+                    hide-details
+                  ></v-checkbox> 
+              </v-col>
+                <v-col
+                  cols="12"
+                  sm="4"
+                  md="4"
+                >
+                  <v-checkbox 
+                  v-model="selectedPermission"
+                    label="Update"
+                    color="red"
+                    value="3"
+                    hide-details
+                  ></v-checkbox>
+                  <v-checkbox 
+                  v-model="selectedPermission"
+                    label="Delete"
+                    color="red"
+                    value="5"
+                    hide-details
+                  ></v-checkbox>
+                
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="4"
+                  md="4"
+                >
+                   <v-checkbox  
+                   v-model="selectedPermission"
+                    label="Viewing Only"
+                    color="red"
+                    value="4"
+                    hide-details
+                  ></v-checkbox>
+                </v-col>
+          </v-row>
             <div class="d-flex justify-end">
               <v-btn class="mr-1" text color="grey" @click="userNewFormDialog = false">cancel</v-btn>
               <v-btn class="primary" @click="saveUser('save')">Update</v-btn>
@@ -156,6 +215,63 @@
               class="py-0"
               dense
             ></v-select>
+
+              <v-row>
+                <v-col
+                  cols="12"
+                  sm="4"
+                  md="4"
+                >
+                  <v-checkbox 
+                   v-model="updatePermission"
+                    label="All Permission"
+                    color="red"
+                    value="1"
+                    hide-details
+                  ></v-checkbox>
+                  <v-checkbox
+                    v-model="updatePermission"
+                    label="Create"
+                    color="red"
+                    value="2"
+                    hide-details
+                  ></v-checkbox> 
+              </v-col>
+                <v-col
+                  cols="12"
+                  sm="4"
+                  md="4"
+                >
+                  <v-checkbox 
+                  v-model="updatePermission"
+                    label="Update"
+                    color="red"
+                    value="3"
+                    hide-details
+                  ></v-checkbox>
+                  <v-checkbox 
+                  v-model="updatePermission"
+                    label="Delete"
+                    color="red"
+                    value="5"
+                    hide-details
+                  ></v-checkbox>
+                
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="4"
+                  md="4"
+                >
+                   <v-checkbox  
+                   v-model="updatePermission"
+                    label="Viewing Only"
+                    color="red"
+                    value="4"
+                    hide-details
+                  ></v-checkbox>
+                </v-col>
+          </v-row>
             <div class="d-flex justify-end">
               <v-btn class="mr-1" text color="grey" @click="userFormDialog = false">cancel</v-btn>
               <v-btn class="primary" @click="saveUser('update')">Update</v-btn>
@@ -204,6 +320,9 @@ export default {
     },
   data() {
     return {
+      selectedPermission: ['1'],
+      updatePermission: [],
+      arr : [],
       authUser: this.$authUser,
       color: '',
       mode: 'vertical',
@@ -226,10 +345,17 @@ export default {
       orgUsers: [], // Company Users
 
       roleItems: [
-        { role: "Team Admin", value: 3 },
-        { role: "Team Editor", value: 4 },
+        { role: "Administrator", value: 2 },
+        { role: "Team Editor", value: 3 },
+         { role: "Free User", value: 4 },
       ],
-
+      // permissionItems: [
+      //   { role: "All Access", value: 1 },
+      //   { role: "Create", value: 2 },
+      //   { role: "Update", value: 3 },
+      //   { role: "Viewing", value: 4 },
+      //   { role: "Delete", value: 5 },
+      // ],
       show1: false,
       newname: "",
       newemail: "",
@@ -251,17 +377,34 @@ export default {
       if (role == 1) {
         roleLabel = "Super Admin";
       } else if (role == 2) {
-        roleLabel = "App Admin";
+        roleLabel = "Administrator";
       } else if (role == 3) {
-        roleLabel = "Admin";
-      } else {
         roleLabel = "Editor";
+      } else {
+        roleLabel = "Free";
+      }
+      return roleLabel;
+    },
+    printPermission(role) { 
+      let roleLabel = "";
+      if (role == 'all-permission') {
+        roleLabel = "All Access";
+      } else if (role == 'c-only') {
+        roleLabel = "Create";
+      } else if (role == 'u-only') {
+        roleLabel = "Update";
+      }else if (role == 'v-only') {
+        roleLabel = "View only";
+      } else {
+        roleLabel = "Delete";
       }
       return roleLabel;
     },
     actionFunction(action, value) {
+      this.arr = [];
       this.dialogData = [];
       this.dialogData = value;
+      console.log( this.dialogData.permissions);
       if (action == "edit") {
         this.userFormDialog = true;
         this.name = this.dialogData.name;
@@ -269,12 +412,18 @@ export default {
         this.password = this.dialogData.password;
         this.phone = this.dialogData.phone ? this.dialogData.phone : "";
         this.role = {
-          role: this.dialogData.role == 3 ? "Admin" : "Editor",
+          role: this.dialogData.role == 2 ? "Admin" : this.dialogData.role == 2 ? "Editor" : "Free",
           value: this.dialogData.role,
         };
+        this.dialogData.permissions.forEach(this.getPermissions);
+         
+         this.updatePermission = this.arr; 
       } else {
         this.deleteDialog = true;
       }
+    },
+    getPermissions(item, index) { 
+         this.arr.push(''+item.id+''); 
     },
     confirmDelete() {
       axios
@@ -296,6 +445,7 @@ export default {
         });
     },
     saveUser(action) { 
+       
        let customValidate = true;
       let data = {};
       let route = "save";
@@ -303,10 +453,11 @@ export default {
         route = "update/" + this.dialogData.id;
 
           data = {
-          name: this.name,
-          phone: this.phone,
-          role: this.role.value,
-        };
+                    name: this.name,
+                    phone: this.phone,
+                    role: this.role.value,
+                    permissions: this.updatePermission
+                  };
         if(this.email != this.dialogData.email){
           data.email = this.email;
         }
@@ -320,7 +471,8 @@ export default {
                     phone: this.newphone,
                     role: this.newrole.value,
                     email: this.newemail,
-                    password: this.password
+                    password: this.password,
+                    permissions: this.selectedPermission
                 }; 
 
           $.each(data, function(key, value) {
@@ -337,8 +489,9 @@ export default {
             this.userFormDialog = false;
           }else{
              this.userNewFormDialog = false;
+             
           }
-          
+         
           this.dialogData = [];
            var curPage = this.page;
           
@@ -356,14 +509,14 @@ export default {
           this.getOrgUsers(curPage);
         })
         .catch((error) => {
-            if (error.response) {  
-
+          
+            if (error.response) {   
               // snackbar
                 this.snackbar = true;
                 this.color = "error";
                 this.x = "right";
                 this.y = "top";
-                this.text = error.response.data.errors.email[0]; 
+                this.text = error.response.data.message; 
             }
         });
     },
@@ -375,6 +528,7 @@ export default {
       axios
         .get("/settings/get-org-users/" + this.authUser.company_id+"?page=" + p)
         .then((response) => {
+          console.log(response);
           this.orgUsers = response.data.data; 
           this.page = response.data.current_page;
           this.pageCount = response.data.last_page;
