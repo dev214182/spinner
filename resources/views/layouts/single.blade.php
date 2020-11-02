@@ -272,7 +272,7 @@ display: none;
   left: 0;
   top: 0;
   width: 100%;
-  height: 0;
+  height: 82%;
   overflow: hidden;
   background-color: transparent;
 }
