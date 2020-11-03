@@ -21,7 +21,7 @@
         #panorama {
         width: 100%;
          
-        min-height:640px;
+        min-height:624px;
       }
       .custom-hotspot{ 
         border-radius: 50%;
