@@ -15,7 +15,7 @@
         </div>
       </div>
       <div class="interior">
-        <div style="max-width: 1366px; margin: 0 auto; margin-bottom:15px;">
+        <div style="max-width: 1366px; margin: 0 auto; margin-bottom:16px;">
           <div id="panorama"> </div>
         </div>
       </div>
