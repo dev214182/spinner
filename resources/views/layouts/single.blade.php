@@ -417,8 +417,14 @@ z-index: 9;
     .arrow{ top:7px;width: 8px; height: 8px;} 
    
 }
- 
+@media (max-width: 767px){  
+  .carousel-photos { margin: 0px 5px; }
+  .carousel-photos .slick-slide {margin: 0 5px !important;
+    width: 13% !important;}
+}
 @media (max-width:576px) {
+  .carousel-photos .slick-slide {margin: 0 5px !important;
+    width: 10% !important;}
   .slick-track{ margin-left: 5px !important;}
   .slick-slider{ z-index: 9999; }
   .prev, .next { padding: 5px 10px; font-size: 12px; margin-top: -15px; }
