@@ -337,13 +337,9 @@ var slideIndex = 1;
             $('.slider-content').html(hpSlider);
             $('#hp-draggable').html(hpLabel);  
                $('.carousel-photos').slick({
-                  infinite: true,
-                  arrows:true,
-                  prevArrow:'<button type="button" class="slick-prev"></button>',
-                  nextArrow:'<button type="button" class="slick-next"></button>',
+                  infinite: true, 
                   slidesToShow: 5,
-                  slidesToScroll: 4,
-                  centerMode: true,
+                  slidesToScroll: 4  
                 });
               
                 if(data.hpItems.length > 0){
