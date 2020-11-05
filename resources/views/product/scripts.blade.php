@@ -339,7 +339,10 @@ var slideIndex = 1;
                $('.carousel-photos').slick({
                   infinite: true,
                   slidesToShow: 5,
-                  slidesToScroll: 5
+                  arrows:true,
+                  prevArrow:'<button type="button" class="slick-prev"></button>',
+                  nextArrow:'<button type="button" class="slick-next"></button>',
+                  slidesToScroll: 4
                 });
               
                 if(data.hpItems.length > 0){
