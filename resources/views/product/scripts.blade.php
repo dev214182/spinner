@@ -342,7 +342,7 @@ var slideIndex = 1;
                   prevArrow:'<button type="button" class="slick-prev"></button>',
                   nextArrow:'<button type="button" class="slick-next"></button>',
                   slidesToShow: 5,
-                  slidesToScroll: 4
+                  slidesToScroll: 4,
                   centerMode: true,
                 });
               
