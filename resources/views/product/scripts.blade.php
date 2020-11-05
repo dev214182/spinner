@@ -343,7 +343,7 @@ var slideIndex = 1;
                   nextArrow:'<button type="button" class="slick-next"></button>',
                   slidesToShow: 5,
                   slidesToScroll: 4
-                  centerMode
+                  centerMode: true,
                 });
               
                 if(data.hpItems.length > 0){
