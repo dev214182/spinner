@@ -319,7 +319,7 @@ var slideIndex = 1;
                        
                     },
                     onComplete: function(){
-                      if(data.hpItems.length > 0 || panoramicImg.length > 0){
+                      if(panoramicImg.length > 0){
                         $(".content-action").attr("style","display:flex");
 
                         $(".open-exterior").show();
