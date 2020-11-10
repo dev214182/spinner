@@ -260,7 +260,7 @@ var slideIndex = 1;
                     sense: -1,
                     renderer: "canvas",
                     responsive: true, 
-                    animate: false,
+                    animate: true,
                     preloadCount: 6,
                     frameTime: 300,
                     plugins: [ 
