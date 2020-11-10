@@ -321,10 +321,14 @@ var slideIndex = 1;
                     onComplete: function(){
                       if(data.hpItems.length > 0 || panoramicImg.length > 0){
                         $(".content-action").attr("style","display:flex");
+
                         $(".open-exterior").show();
+                      
                       }
                       
-                      $("#loading-wrapper").remove();
+                      setTimeout(() => {
+                        $("#loading-wrapper").remove();
+                      }, 2000);
                       $(".center-con").show();
                       $(".icon-360").show();
                     }
@@ -403,6 +407,8 @@ var slideIndex = 1;
                                 pitch = -16.834687202204037;
                                 yaw = -36.30724382948786;
                           }
+                        }else{
+                          
                         }
                       $interior.hide();
                       var x = 1;
