@@ -365,7 +365,7 @@ display: none;
     line-height: 13px;
     z-index: 99;
     }
-.open-interior, .open-exterior,  .photos.img, .videos.img, .content-action{ display: none;}
+.open-interior, .open-exterior,  .photos.img, .videos.img, .content-action{ display: none; }
 .content-action .img{text-transform: uppercase;
     cursor: pointer;
     color: #fff;
