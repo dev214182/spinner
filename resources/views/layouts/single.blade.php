@@ -459,6 +459,8 @@ z-index: 9;
     height: 100%;
     left: 0;
     top: 0;
+    z-index:9999;
+    background: #fff;
   }
 
   #loading-text {

@@ -165,17 +165,36 @@ class FilesController extends Controller
         $watermark = Watermark::where(['company_id' => $companyId, 'default' => 1])->first();
 
         $files = Collection::wrap($request->selected);
-
+       
         // Do something on each files uploaded
         foreach($files AS $k => $file) {
-            $source = storage_path() . '/app/public/uploads/'.$companyId.'/original/'.$file;
-
+            
+            $ext = explode(".", $file); 
+            $filename = $ext[0].'.jpg';
+            $filename2 = $ext[0].'.JPG';
+            $filename3 = $ext[0].'.png';
+            $source1 = storage_path() . '/app/public/uploads/'.$companyId.'/original/'.$filename;
+            $source2 = storage_path() . '/app/public/uploads/'.$companyId.'/original/'.$filename2;
+            $source3 = storage_path() . '/app/public/uploads/'.$companyId.'/original/'.$filename3;
+           
+            if(file_exists($source1)){
+                $source = $source1;
+               
+            }elseif(file_exists($source2)){
+                $source = $source2;
+                
+            }else{
+                $source = $source3;
+                
+            }
+          
             $selectedImg = Image::make($source);
             // if($watermark && $watermark->status == true ){
             if($watermark){
                 $selectedImg->insert('storage/uploads/'.$companyId.'/watermark/'.$watermark->path, $watermark->position, $watermark->offset_space, $watermark->offset_space);
             }
-                $selectedImg->save($userStorage . '/' . $file); // Save to directory
+            
+            $selectedImg->save($userStorage . '/' . $file); // Save to directory
         }
         return response()->json("Success", 200);
     }
@@ -191,9 +210,26 @@ class FilesController extends Controller
         $files = Collection::wrap($request->selected);
 
         // Do something on each files uploaded
-        foreach($files AS $k => $file) {
-            $source = storage_path() . '/app/public/uploads/'.$companyId.'/original/'.$file;
-
+        foreach($files AS $k => $file) { 
+            
+            $ext = explode(".", $file); 
+            $filename = $ext[0].'.jpg';
+            $filename2 = $ext[0].'.JPG';
+            $filename3 = $ext[0].'.png';
+            $source1 = storage_path() . '/app/public/uploads/'.$companyId.'/original/'.$filename;
+            $source2 = storage_path() . '/app/public/uploads/'.$companyId.'/original/'.$filename2;
+            $source3 = storage_path() . '/app/public/uploads/'.$companyId.'/original/'.$filename3;
+           
+            if(file_exists($source1)){
+                $source = $source1;
+                
+            }elseif(file_exists($source2)){
+                $source = $source2;
+                
+            }else{
+                $source = $source3;
+                 
+            }
             $selectedImg = Image::make($source);
 
             $selectedImg->save($userStorage . '/' . $file); // Save to directory
