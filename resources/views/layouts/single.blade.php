@@ -520,6 +520,7 @@ z-index: 9;
     }
   }
    .spritespin.with-canvas{ border: 2px solid #848282;}
+   .slick-track{ margin: 0 !important; }
     </style>
 <script> 
 var base_url = "{{URL::to('/')}}";  
