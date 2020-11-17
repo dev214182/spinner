@@ -392,10 +392,17 @@ display: none;
 border: 2px solid #007bc3;
 z-index: 9;
 }
+.slick-next {
+    right: -35px !important;
+}
+.slick-prev {
+    left: -35px !important;
+}
 .slick-prev, .slick-next{ width: 30px  !important;
     height: 30px  !important;background: #E3B226 !important;
     border-radius: 5px  !important; color: #fff !important;}
-  .carousel-photos { margin: 0px 50px; }
+  /* .carousel-photos { float:left; } */
+  .carousel-photos .slick-slide:first-child{ margin-left: 0 !important; }
   .carousel-photos .slick-slide{ margin: 0 20px !important; width: 214px !important;}
   .slick-slide{ width: 230px !important;}
   .slick-track { min-width: 1000px;}
@@ -512,7 +519,7 @@ z-index: 9;
       transform: rotate(360deg);
     }
   }
-   
+   .spritespin.with-canvas{ border: 2px solid #848282;}
     </style>
 <script> 
 var base_url = "{{URL::to('/')}}";  
@@ -538,7 +545,7 @@ var base_url = "{{URL::to('/')}}";
             @yield('content')
         
     </div>
-  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-polyfills/0.1.43/polyfill.min.js"></script>
     <script type="text/javascript" src="{{ asset('js/jquery-3.3.1.js') }}"></script>
      <!-- Styles -->
      <!-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->

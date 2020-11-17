@@ -346,7 +346,7 @@ function preload(opts) {
             completed = true; 
             onComplete(images);
         }else if(count >= src.length){
-            setTimeout(()=>{
+            setTimeout( function(){
                 onComplete(images); 
             }, 500);
             
