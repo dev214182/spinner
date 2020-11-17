@@ -58,18 +58,20 @@ var slideIndex = 1;
         var hpEdit = [];  
  
         function getUnique(arr, comp) {
-
-              // store the comparison  values in array
-              const unique =  arr.map(e => e[comp])
-
-              // store the indexes of the unique objects
-              .map((e, i, final) => final.indexOf(e) === i && i)
-
-              // eliminate the false indexes & return unique objects
-              .filter((e) => arr[e]).map(e => arr[e]);
-
-              return unique;
-        }
+            // store the comparison  values in array
+            var unique = arr.map(function (e) {
+              return e[comp];
+            }) // store the indexes of the unique objects
+            .map(function (e, i, final) {
+              return final.indexOf(e) === i && i;
+            }) // eliminate the false indexes & return unique objects
+            .filter(function (e) {
+              return arr[e];
+            }).map(function (e) {
+              return arr[e];
+            });
+            return unique;
+          }
         
         var datazz = base_url+ '/api/product/'+sls;
         
@@ -124,7 +126,7 @@ var slideIndex = 1;
                         
                         $(".video-slider").html( vds );
 
-                          setTimeout(() => {
+                          setTimeout( function() {
                               $('.video-slider').slick({
                                   infinite: true,
                                   slidesToShow: 4,
@@ -247,27 +249,27 @@ var slideIndex = 1;
                 let imgCnt = imagesArray.length;
                 
                 init360(); 
-                function init360(){  
+                function init360(){
                    
                   api = $(".spritespin").spritespin({
-                    source: imagesArray,  
-                    frame: 0, 
+                    source: imagesArray,
+                    frame: 0,
                     frames: imgCnt,
                     framesX: 4,
                     loading: false,
                     width: 1366,
-                    height: 768, 
+                    height: 768,
                     sense: -1,
                     renderer: "canvas",
-                    responsive: true, 
+                    responsive: true,
                     animate: true,
                     preloadCount: 6,
                     frameTime: 300,
-                    plugins: [ 
-                    "drag", 
-                    "360", 
-                    ], 
-                    onFrameChanged: function (e, data) { 
+                    plugins: [
+                    "drag",
+                    "360",
+                    ],
+                    onFrameChanged: function (e, data) {
                         hideVideo(); 
                         $('#hp-draggable li').hide();
                         
@@ -326,9 +328,9 @@ var slideIndex = 1;
                       
                       }
                       
-                      setTimeout(() => {
+                      //setTimeout(() => {
                         $("#loading-wrapper").remove();
-                      }, 2000);
+                     // }, 2000);
                       $(".center-con").show();
                       $(".icon-360").show();
                     }
