@@ -35,7 +35,7 @@
            <span>{{item.title.length > 15 ? item.title.substring(0, 15)+'..' : item.title}}</span>
         </template>
         <template v-slot:[`item.actions`]="{ item }">
-          <v-icon small title="Set Hotspot" color="primary" :class="'mr-2 default-hp hp-'+item.id " @click="setHotspot(item)">mdi-plus-thick</v-icon>
+          <!-- <v-icon small title="Set Hotspot" color="primary" :class="'mr-2 default-hp hp-'+item.id " @click="setHotspot(item)">mdi-plus-thick</v-icon> -->
           <v-icon small title="Edit Hotspot" @click="editItem(item)">mdi-dots-vertical</v-icon>
         </template>
       </v-data-table>

@@ -33402,24 +33402,6 @@ var render = function() {
                           _c(
                             "v-icon",
                             {
-                              class: "mr-2 default-hp hp-" + item.id,
-                              attrs: {
-                                small: "",
-                                title: "Set Hotspot",
-                                color: "primary"
-                              },
-                              on: {
-                                click: function($event) {
-                                  return _vm.setHotspot(item)
-                                }
-                              }
-                            },
-                            [_vm._v("mdi-plus-thick")]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-icon",
-                            {
                               attrs: { small: "", title: "Edit Hotspot" },
                               on: {
                                 click: function($event) {
