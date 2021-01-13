@@ -1839,11 +1839,11 @@ extendApi({
             data.context.clearRect(0, 0, w, h);
            // console.log(src);
            
-           if(data.canvas[0].isConnected){
+           //if(data.canvas[0].isConnected){
                 data.context.drawImage(image, sprite.sampledX, sprite.sampledY, sprite.sampledWidth, sprite.sampledHeight, 0, 0, w, h);
-           }else{
+        //    }else{
 
-            $("#loading-wrapper").hide();
+        //     $("#loading-wrapper").hide();
             // var spl = src.split(".");
             // var data1 = spl[0];
             // var splitData = data1.split("/");
@@ -1860,8 +1860,8 @@ extendApi({
             // image = '<img src="'+data2+'"></img>';
            
              // data.context.drawImage(image, sprite.sampledX, sprite.sampledY, sprite.sampledWidth, sprite.sampledHeight, 0, 0, w, h);
-            $(".exterior").html('<h1 style="margin:50px auto;">Kindly update your browser or use modern browser to view the spinner.</h1>');
-           }
+        //     $(".exterior").html('<h1 style="margin:50px auto;">Kindly update your browser or use modern browser to view the spinner.</h1>');
+        //    }
            
             return;
         }

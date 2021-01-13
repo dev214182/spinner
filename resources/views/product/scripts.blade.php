@@ -52,6 +52,29 @@ var slideIndex = 1;
   <script type="text/javascript">
   var dt = "<?php echo date("dHis") ?>";
  
+  var browsers = ["Opera", "Edg", "Chrome", "Safari", "Firefox", "MSIE", "Trident"];
+var userbrowser, useragent = navigator.userAgent;
+for (var i = 0; i < browsers.length; i++) {
+    if( useragent.indexOf(browsers[i]) > -1 ) {
+        userbrowser = browsers[i];
+        break;
+    }
+};
+  
+switch(userbrowser) {
+    case 'MSIE':
+        userbrowser = 'IE-Browser';
+        break;
+  
+    case 'Trident':
+        userbrowser = 'IE-Browser';
+        break;
+  
+    case 'Edg':
+        userbrowser = 'Microsoft Edge';
+        break;
+}
+
     var api;
     var sls = '{{ $slug }}';
       $(function () {
@@ -178,8 +201,7 @@ var slideIndex = 1;
                    hpSlider += '</div>';
            }); 
 
-          
-
+ 
                 $.each(data.dataItems, function(i, o) {  
               
                     var items = o.items;  
@@ -190,8 +212,16 @@ var slideIndex = 1;
                               panoramicSettings[ii] = items[ii].media_file.interior_settings; 
                             } else{
                               conf_hotspots[ii] = [];      
-                              conf_hotspots[ii]['hotspot_setting'] = [];    
-                              imgs[ii] = '/storage/uploads/'+o.user.company_id+'/'+items[ii].media_file.path+'?v='+dt;
+                              conf_hotspots[ii]['hotspot_setting'] = [];
+                              
+                              if(userbrowser == 'Safari' || userbrowser == 'IE-Browser'){
+                                console.log("ddddddddddddd");
+                                var fileItem = items[ii].media_file.path.split(".");
+                                fileItem = fileItem[0]; 
+                                imgs[ii] = '/storage/uploads/'+o.user.company_id+'/original/'+fileItem+'.jpg?v='+dt;
+                              }else{ 
+                                imgs[ii] = '/storage/uploads/'+o.user.company_id+'/'+items[ii].media_file.path+'?v='+dt;
+                              }
                             }
                             if(items[ii].hotspot_setting){
                                     Object.keys(items[ii].hotspot_setting).map(function (iii) {  
