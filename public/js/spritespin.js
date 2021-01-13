@@ -2007,29 +2007,29 @@ extendApi({
         state.context.globalAlpha = step.alpha;
        
         
-        if(state.canvas[0].isConnected){
+        //if(state.canvas[0].isConnected){
             state.context.drawImage(image, sprite.sampledX, sprite.sampledY, sprite.sampledWidth, sprite.sampledHeight, 0, 0, w, h);
-           }else{
-            $("#loading-wrapper").hide();
-            var spl = src.split(".");
-            var data1 = spl[0];
-            var splitData = data1.split("/");
-            var lastItem = splitData[splitData.length -1];
+        //    }else{
+        //     $("#loading-wrapper").hide();
+        //     var spl = src.split(".");
+        //     var data1 = spl[0];
+        //     var splitData = data1.split("/");
+        //     var lastItem = splitData[splitData.length -1];
             
-            // popup last item
-            splitData.pop();
+        //     // popup last item
+        //     splitData.pop();
             
-            splitData = splitData.toString();
+        //     splitData = splitData.toString();
              
-            splitData = splitData.replace(/,/g, '/');
-            var data2 = splitData+"/original/"+lastItem+".jpg";
+        //     splitData = splitData.replace(/,/g, '/');
+        //     var data2 = splitData+"/original/"+lastItem+".jpg";
              
-            image = '<img src="'+data2+'"></img>';
-            console.log(image);
-            state.context.drawImage(image, sprite.sampledX, sprite.sampledY, sprite.sampledWidth, sprite.sampledHeight, 0, 0, w, h);
+        //     image = '<img src="'+data2+'"></img>';
+        //     console.log(image);
+        //     state.context.drawImage(image, sprite.sampledX, sprite.sampledY, sprite.sampledWidth, sprite.sampledHeight, 0, 0, w, h);
              
-            //    $(".exterior").html('<h1 style="margin:50px auto;">Kindly update your browser or use modern browser to view the spinner.</h1>');
-           }
+        //     //    $(".exterior").html('<h1 style="margin:50px auto;">Kindly update your browser or use modern browser to view the spinner.</h1>');
+        //    }
     }
     function tick(data) {
         var state = getState$$1(data);
