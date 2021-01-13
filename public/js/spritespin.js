@@ -1816,7 +1816,7 @@ extendApi({
 (function () {
     var NAME = '360';
     function onLoad(e, data) {
-        data.stage.find('.spritespin-frames').detach();
+        data.stage.find('.spritespin-frames').detach(); 
         if (data.renderer === 'image') {
             $(data.images).addClass('spritespin-frames').appendTo(data.stage);
         }
@@ -1824,18 +1824,45 @@ extendApi({
     function onDraw(e, data) {
         var specs = findSpecs(data.metrics, data.frames, data.frame, data.lane);
         var sheet = specs.sheet;
+        console.log(sheet);
         var sprite = specs.sprite;
         if (!sheet || !sprite) {
             return;
         }
         var src = data.source[sheet.id];
         var image = data.images[sheet.id];
+       
         if (data.renderer === 'canvas') {
             data.canvas.show();
             var w = data.canvas[0].width / data.canvasRatio;
             var h = data.canvas[0].height / data.canvasRatio;
             data.context.clearRect(0, 0, w, h);
-            data.context.drawImage(image, sprite.sampledX, sprite.sampledY, sprite.sampledWidth, sprite.sampledHeight, 0, 0, w, h);
+           // console.log(src);
+           
+           if(data.canvas[0].isConnected){
+                data.context.drawImage(image, sprite.sampledX, sprite.sampledY, sprite.sampledWidth, sprite.sampledHeight, 0, 0, w, h);
+           }else{
+
+            $("#loading-wrapper").hide();
+            // var spl = src.split(".");
+            // var data1 = spl[0];
+            // var splitData = data1.split("/");
+            // var lastItem = splitData[splitData.length -1];
+            
+            // // popup last item
+            // splitData.pop();
+            
+            // splitData = splitData.toString();
+             
+            // splitData = splitData.replace(/,/g, '/');
+            // var data2 = splitData+"/original/"+lastItem+".jpg";
+             
+            // image = '<img src="'+data2+'"></img>';
+           
+             // data.context.drawImage(image, sprite.sampledX, sprite.sampledY, sprite.sampledWidth, sprite.sampledHeight, 0, 0, w, h);
+            $(".exterior").html('<h1 style="margin:50px auto;">Kindly update your browser or use modern browser to view the spinner.</h1>');
+           }
+           
             return;
         }
         var scaleX = data.stage.innerWidth() / sprite.sampledWidth;
@@ -1978,7 +2005,31 @@ extendApi({
         var w = state.canvas[0].width / data.canvasRatio;
         var h = state.canvas[0].height / data.canvasRatio;
         state.context.globalAlpha = step.alpha;
-        state.context.drawImage(image, sprite.sampledX, sprite.sampledY, sprite.sampledWidth, sprite.sampledHeight, 0, 0, w, h);
+       
+        
+        if(state.canvas[0].isConnected){
+            state.context.drawImage(image, sprite.sampledX, sprite.sampledY, sprite.sampledWidth, sprite.sampledHeight, 0, 0, w, h);
+           }else{
+            $("#loading-wrapper").hide();
+            var spl = src.split(".");
+            var data1 = spl[0];
+            var splitData = data1.split("/");
+            var lastItem = splitData[splitData.length -1];
+            
+            // popup last item
+            splitData.pop();
+            
+            splitData = splitData.toString();
+             
+            splitData = splitData.replace(/,/g, '/');
+            var data2 = splitData+"/original/"+lastItem+".jpg";
+             
+            image = '<img src="'+data2+'"></img>';
+            console.log(image);
+            state.context.drawImage(image, sprite.sampledX, sprite.sampledY, sprite.sampledWidth, sprite.sampledHeight, 0, 0, w, h);
+             
+            //    $(".exterior").html('<h1 style="margin:50px auto;">Kindly update your browser or use modern browser to view the spinner.</h1>');
+           }
     }
     function tick(data) {
         var state = getState$$1(data);
