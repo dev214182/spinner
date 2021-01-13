@@ -1836,32 +1836,10 @@ extendApi({
             data.canvas.show();
             var w = data.canvas[0].width / data.canvasRatio;
             var h = data.canvas[0].height / data.canvasRatio;
-            data.context.clearRect(0, 0, w, h);
-           // console.log(src);
+            data.context.clearRect(0, 0, w, h); 
            
-           //if(data.canvas[0].isConnected){
-                data.context.drawImage(image, sprite.sampledX, sprite.sampledY, sprite.sampledWidth, sprite.sampledHeight, 0, 0, w, h);
-        //    }else{
-
-        //     $("#loading-wrapper").hide();
-            // var spl = src.split(".");
-            // var data1 = spl[0];
-            // var splitData = data1.split("/");
-            // var lastItem = splitData[splitData.length -1];
-            
-            // // popup last item
-            // splitData.pop();
-            
-            // splitData = splitData.toString();
-             
-            // splitData = splitData.replace(/,/g, '/');
-            // var data2 = splitData+"/original/"+lastItem+".jpg";
-             
-            // image = '<img src="'+data2+'"></img>';
-           
-             // data.context.drawImage(image, sprite.sampledX, sprite.sampledY, sprite.sampledWidth, sprite.sampledHeight, 0, 0, w, h);
-        //     $(".exterior").html('<h1 style="margin:50px auto;">Kindly update your browser or use modern browser to view the spinner.</h1>');
-        //    }
+            data.context.drawImage(image, sprite.sampledX, sprite.sampledY, sprite.sampledWidth, sprite.sampledHeight, 0, 0, w, h);
+         
            
             return;
         }
@@ -2004,32 +1982,10 @@ extendApi({
         state.canvas.show();
         var w = state.canvas[0].width / data.canvasRatio;
         var h = state.canvas[0].height / data.canvasRatio;
-        state.context.globalAlpha = step.alpha;
-       
+        state.context.globalAlpha = step.alpha; 
         
-        //if(state.canvas[0].isConnected){
-            state.context.drawImage(image, sprite.sampledX, sprite.sampledY, sprite.sampledWidth, sprite.sampledHeight, 0, 0, w, h);
-        //    }else{
-        //     $("#loading-wrapper").hide();
-        //     var spl = src.split(".");
-        //     var data1 = spl[0];
-        //     var splitData = data1.split("/");
-        //     var lastItem = splitData[splitData.length -1];
-            
-        //     // popup last item
-        //     splitData.pop();
-            
-        //     splitData = splitData.toString();
-             
-        //     splitData = splitData.replace(/,/g, '/');
-        //     var data2 = splitData+"/original/"+lastItem+".jpg";
-             
-        //     image = '<img src="'+data2+'"></img>';
-        //     console.log(image);
-        //     state.context.drawImage(image, sprite.sampledX, sprite.sampledY, sprite.sampledWidth, sprite.sampledHeight, 0, 0, w, h);
-             
-        //     //    $(".exterior").html('<h1 style="margin:50px auto;">Kindly update your browser or use modern browser to view the spinner.</h1>');
-        //    }
+        state.context.drawImage(image, sprite.sampledX, sprite.sampledY, sprite.sampledWidth, sprite.sampledHeight, 0, 0, w, h);
+         
     }
     function tick(data) {
         var state = getState$$1(data);

@@ -214,8 +214,7 @@ switch(userbrowser) {
                               conf_hotspots[ii] = [];      
                               conf_hotspots[ii]['hotspot_setting'] = [];
                               
-                              if(userbrowser == 'Safari' || userbrowser == 'IE-Browser'){
-                                console.log("ddddddddddddd");
+                              if(userbrowser == 'Safari' || userbrowser == 'IE-Browser'){ 
                                 var fileItem = items[ii].media_file.path.split(".");
                                 fileItem = fileItem[0]; 
                                 imgs[ii] = '/storage/uploads/'+o.user.company_id+'/original/'+fileItem+'.jpg?v='+dt;
