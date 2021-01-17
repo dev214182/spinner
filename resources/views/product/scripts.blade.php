@@ -154,7 +154,7 @@ switch(userbrowser) {
             if (data.dataItems == false) { $("body").remove(); return false; }
             if (data) { 
 
-              if(userbrowser == 'Chrome' || userbrowser == 'IE-Browser'){ 
+              if(userbrowser == 'Safari' || userbrowser == 'IE-Browser'){ 
                 var fileItem = data.dataItems[0].items[0].media_file.path.split(".");
                 fileItem = fileItem[0];   
 
@@ -236,7 +236,7 @@ switch(userbrowser) {
                   
                    if(hpContents && hpContents.image){  
                      
-                      if(userbrowser == 'Chrome' || userbrowser == 'IE-Browser'){ 
+                      if(userbrowser == 'Safari' || userbrowser == 'IE-Browser'){ 
                           var fileItem = hpContents.image.split(".webp");
                           var fs = fileItem[0]; 
                           var originalItem = fs.split('/uploads');
@@ -288,7 +288,7 @@ switch(userbrowser) {
                     Object.keys(items).map(function (ii) {  
                             if(items[ii].item_type == "panorama"){
 
-                              if(userbrowser == 'Chrome' || userbrowser == 'IE-Browser'){ 
+                              if(userbrowser == 'Safari' || userbrowser == 'IE-Browser'){ 
                                 var fileItem = items[ii].media_file.path.split(".");
                                 fileItem = fileItem[0]; 
                                 var url = base_url+ '/storage/uploads/'+o.user.company_id+'/original/'+fileItem+'.jpg';
@@ -307,13 +307,11 @@ switch(userbrowser) {
                               conf_hotspots[ii] = [];      
                               conf_hotspots[ii]['hotspot_setting'] = [];
                               
-                              if(userbrowser == 'Chrome' || userbrowser == 'IE-Browser'){ 
+                              if(userbrowser == 'Safari' || userbrowser == 'IE-Browser'){ 
                                 var fileItem = items[ii].media_file.path.split(".");
-                                fileItem = fileItem[0]; 
-
-                 
-                                 imgs[ii] = '/storage/uploads/'+o.user.company_id+'/original/'+fileItem+'.jpg?v='+dt;
-                 
+                                fileItem = fileItem[0];  
+                                
+                                 imgs[ii] = '/storage/uploads/'+o.user.company_id+'/original/'+fileItem+'.jpg?v='+dt;  
                                 
                               }else{ 
                                 imgs[ii] = '/storage/uploads/'+o.user.company_id+'/'+items[ii].media_file.path+'?v='+dt;

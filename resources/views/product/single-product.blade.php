@@ -16,7 +16,7 @@
       </div>
       <div class="interior">
         <div style="max-width: 1366px; margin: 0 auto; margin-bottom:16px;">
-          <div id="panorama"> </div>
+          <div id="panorama" style="z-index:0;"> </div>
         </div>
       </div>
     </div> 
@@ -35,9 +35,9 @@
       </div>
     </div>
 
-        <div class="content-action">
+        <div class="content-action" style="z-index:9999999;">
           <div class="open-exterior active">exterior</div>
-          <div class="open-interior">interior</div>
+          <div class="open-interior"  >interior</div>
             <!-- <div class="divider"></div> -->
           <div class="videos img">VIDEOS</div>
           <!-- <div class="photos img">PHOTOS</div> -->
