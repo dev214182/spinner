@@ -148,7 +148,7 @@ switch(userbrowser) {
             if (data) { 
 
               if(userbrowser == 'Safari' || userbrowser == 'IE-Browser'){ 
-                var fileItem = items[ii].media_file.path.split(".");
+                var fileItem = data.dataItems[0].items[0].media_file.path.split(".");
                 fileItem = fileItem[0]; 
                 var media_file = "original/"+fileItem;
               }else{ 
