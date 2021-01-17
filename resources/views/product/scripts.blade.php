@@ -506,7 +506,7 @@ switch(userbrowser) {
                         }
                       $interior.hide();
                       var x = 1;
-                      $interiorBtn.on("click", function (e) {
+                      $("body").on("click", ".open-interior", function (e) {
                         e.preventDefault();
                         hideVideo(); 
                          
@@ -546,7 +546,7 @@ switch(userbrowser) {
                             });
                          }
                       });
-                      $exteriorBtn.on("click", function () {
+                      $("body").on("click", ".open-exterior", function () {
                         hideVideo();
                         init360();
                         $exteriorBtn.addClass("active");
