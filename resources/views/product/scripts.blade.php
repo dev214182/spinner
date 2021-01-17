@@ -52,7 +52,42 @@ var slideIndex = 1;
   <script type="text/javascript">
   var dt = "<?php echo date("dHis") ?>";
  
-  var browsers = ["Opera", "Edg", "Chrome", "Safari", "Firefox", "MSIE", "Trident"];
+
+
+// Opera 8.0+
+var isOpera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
+
+// Firefox 1.0+
+var isFirefox = typeof InstallTrigger !== 'undefined';
+
+// Safari 3.0+ "[object HTMLElementConstructor]" 
+var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification));
+
+// Internet Explorer 6-11
+var isIE = /*@cc_on!@*/false || !!document.documentMode;
+
+// Edge 20+
+var isEdge = !isIE && !!window.StyleMedia;
+
+// Chrome 1 - 71
+var isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
+
+// Blink engine detection
+var isBlink = (isChrome || isOpera) && !!window.CSS;
+
+
+var output = 'Detecting browsers by ducktyping:<hr>';
+output += 'isFirefox: ' + isFirefox + '<br>';
+output += 'isChrome: ' + isChrome + '<br>';
+output += 'isSafari: ' + isSafari + '<br>';
+output += 'isOpera: ' + isOpera + '<br>';
+output += 'isIE: ' + isIE + '<br>';
+output += 'isEdge: ' + isEdge + '<br>';
+output += 'isBlink: ' + isBlink + '<br>';
+ 
+console.log(output);
+
+var browsers = ["Opera", "Edg", "Chrome", "Safari", "Firefox", "MSIE", "Trident"];
 var userbrowser, useragent = navigator.userAgent;
 for (var i = 0; i < browsers.length; i++) {
     if( useragent.indexOf(browsers[i]) > -1 ) {
@@ -111,8 +146,16 @@ switch(userbrowser) {
         
             if (data.dataItems == false) { $("body").remove(); return false; }
             if (data) { 
+
+              if(userbrowser == 'Safari' || userbrowser == 'IE-Browser'){ 
+                var fileItem = items[ii].media_file.path.split(".");
+                fileItem = fileItem[0]; 
+                var media_file = "original/"+fileItem;
+              }else{ 
+                var media_file = data.dataItems[0].items[0].media_file.path;
+              }
               
-              $("head").append('<meta property="og:image" content="'+ base_url+ '/storage/uploads/'+ data.dataItems[0].company_id +'/'+ data.dataItems[0].items[0].media_file.path +'">');
+              $("head").append('<meta property="og:image" content="'+ base_url+ '/storage/uploads/'+ data.dataItems[0].company_id +'/'+ media_file +'">');
 
                 var imgs = []; 
                 var panoramicImg = [];
@@ -124,7 +167,7 @@ switch(userbrowser) {
                 var intHps = [];
                 var cnts = 1;
                 var cntsss = 1;
-                var hpLabel = '';  
+                var hpLabel = '';
                
                 let hpSlider = ''; 
                 var xx = 1; 
@@ -174,14 +217,25 @@ switch(userbrowser) {
 
                    hpSlider += '<div class="mySlides text-center" id="'+o.id+'">';
                   
-                   if(hpContents && hpContents.image){ 
-                    hpThumbnailSlider += '<div class="thumbnail-slider thumbnail-point"><a href="#" data-ids="'+ cntsss++ +'"><img  width="100%" height="auto" src="'+hpContents.image+'" style="width:100%" alt="'+o.title+'" /></a></div>';
-                    hpSlider +=       '<img  width="100%" height="auto" src="'+hpContents.image+'" style="width:100%" alt="'+o.title+'" />';
+                   if(hpContents && hpContents.image){  
+                     
+                      if(userbrowser == 'Safari' || userbrowser == 'IE-Browser'){ 
+                          var fileItem = hpContents.image.split(".webp");
+                          var fs = fileItem[0]; 
+                          var originalItem = fs.split('/uploads');
+                          var fsd = originalItem[1].split('/');
+                          var  hpImages = originalItem[0]+"/uploads/"+fsd[1]+"/original/"+fsd[2]+".jpg?v="+dt;  
+                          
+                          hpThumbnailSlider += '<div class="thumbnail-slider thumbnail-point"><a href="#" data-ids="'+ cntsss++ +'"><img  width="100%" height="auto" src="'+hpImages+'" style="width:100%" alt="'+o.title+'" /></a></div>';
+                          hpSlider +=       '<img  width="100%" height="auto" src="'+hpImages+'" style="width:100%" alt="'+o.title+'" />';
+                      }else{ 
+                          hpThumbnailSlider += '<div class="thumbnail-slider thumbnail-point"><a href="#" data-ids="'+ cntsss++ +'"><img  width="100%" height="auto" src="'+hpContents.image+'" style="width:100%" alt="'+o.title+'" /></a></div>';
+                          hpSlider +=       '<img  width="100%" height="auto" src="'+hpContents.image+'" style="width:100%" alt="'+o.title+'" />';
+                      }
                   }
                   hpSlider += '<div class="hp-contents">';
                  
-                   if(o.title){
-                   
+                   if(o.title){ 
                      hpSlider +=       '<h2 class="text-uppercase" >'+o.title+'</h2>';
                    }
                    if(hpContents && hpContents.description){
@@ -208,8 +262,15 @@ switch(userbrowser) {
                     
                     Object.keys(items).map(function (ii) {  
                             if(items[ii].item_type == "panorama"){
-                              panoramicImg[ii] = '/storage/uploads/'+o.user.company_id+'/'+items[ii].media_file.path; 
-                              panoramicSettings[ii] = items[ii].media_file.interior_settings; 
+
+                              if(userbrowser == 'Safari' || userbrowser == 'IE-Browser'){ 
+                                var fileItem = items[ii].media_file.path.split(".");
+                                fileItem = fileItem[0]; 
+                                panoramicImg[ii] = '/storage/uploads/'+o.user.company_id+'/original/'+fileItem+'.jpg?v='+dt;
+                              }else{ 
+                                  panoramicImg[ii] = '/storage/uploads/'+o.user.company_id+'/'+items[ii].media_file.path; 
+                              }
+                                  panoramicSettings[ii] = items[ii].media_file.interior_settings; 
                             } else{
                               conf_hotspots[ii] = [];      
                               conf_hotspots[ii]['hotspot_setting'] = [];
