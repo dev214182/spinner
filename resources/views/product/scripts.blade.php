@@ -7,6 +7,13 @@ var slideIndex = 1;
     
   }
 
+  function ImageExist(url) 
+{
+   var img = new Image();
+   img.src = url;
+   return img.height != 0;
+}
+
   function closeModal() {
     document.getElementById("myModal").style.display = "none";
   }
@@ -147,10 +154,20 @@ switch(userbrowser) {
             if (data.dataItems == false) { $("body").remove(); return false; }
             if (data) { 
 
-              if(userbrowser == 'Safari' || userbrowser == 'IE-Browser'){ 
+              if(userbrowser == 'Chrome' || userbrowser == 'IE-Browser'){ 
                 var fileItem = data.dataItems[0].items[0].media_file.path.split(".");
-                fileItem = fileItem[0]; 
-                var media_file = "original/"+fileItem;
+                fileItem = fileItem[0];   
+
+//                 var url = base_url+ '/storage/uploads/'+ data.dataItems[0].company_id +'/original/'+ fileItem+".jpg";
+
+//                 http.open('HEAD', url, false); 
+//                 http.send(); 
+//                 if (http.status === 200) { 
+                     var media_file = "original/"+fileItem+".jpg";
+//                 } else { 
+//                      var media_file = "original/"+fileItem+".png";
+//                 }  
+                
               }else{ 
                 var media_file = data.dataItems[0].items[0].media_file.path;
               }
@@ -219,12 +236,20 @@ switch(userbrowser) {
                   
                    if(hpContents && hpContents.image){  
                      
-                      if(userbrowser == 'Safari' || userbrowser == 'IE-Browser'){ 
+                      if(userbrowser == 'Chrome' || userbrowser == 'IE-Browser'){ 
                           var fileItem = hpContents.image.split(".webp");
                           var fs = fileItem[0]; 
                           var originalItem = fs.split('/uploads');
                           var fsd = originalItem[1].split('/');
-                          var  hpImages = originalItem[0]+"/uploads/"+fsd[1]+"/original/"+fsd[2]+".jpg?v="+dt;  
+                          
+        //                 var url = originalItem[0]+"/uploads/"+fsd[1]+"/original/"+fsd[2]+".jpg";
+        //                 http.open('HEAD', url, false); 
+        //                 http.send(); 
+        //                 if (http.status === 200) { 
+                             var  hpImages = originalItem[0]+"/uploads/"+fsd[1]+"/original/"+fsd[2]+".jpg?v="+dt;  
+        //                 } else { 
+        //                      var  hpImages = originalItem[0]+"/uploads/"+fsd[1]+"/original/"+fsd[2]+".png?v="+dt;  
+        //                 }  
                           
                           hpThumbnailSlider += '<div class="thumbnail-slider thumbnail-point"><a href="#" data-ids="'+ cntsss++ +'"><img  width="100%" height="auto" src="'+hpImages+'" style="width:100%" alt="'+o.title+'" /></a></div>';
                           hpSlider +=       '<img  width="100%" height="auto" src="'+hpImages+'" style="width:100%" alt="'+o.title+'" />';
@@ -263,10 +288,17 @@ switch(userbrowser) {
                     Object.keys(items).map(function (ii) {  
                             if(items[ii].item_type == "panorama"){
 
-                              if(userbrowser == 'Safari' || userbrowser == 'IE-Browser'){ 
+                              if(userbrowser == 'Chrome' || userbrowser == 'IE-Browser'){ 
                                 var fileItem = items[ii].media_file.path.split(".");
                                 fileItem = fileItem[0]; 
-                                panoramicImg[ii] = '/storage/uploads/'+o.user.company_id+'/original/'+fileItem+'.jpg?v='+dt;
+                                var url = base_url+ '/storage/uploads/'+o.user.company_id+'/original/'+fileItem+'.jpg';
+                                
+                                if ( ImageExist(url)) { 
+                                  panoramicImg[ii] = '/storage/uploads/'+o.user.company_id+'/original/'+fileItem+'.jpg?v='+dt;
+                                } else { 
+                                  panoramicImg[ii] = '/storage/uploads/'+o.user.company_id+'/original/'+fileItem+'.png?v='+dt;
+                                }  
+                                 
                               }else{ 
                                   panoramicImg[ii] = '/storage/uploads/'+o.user.company_id+'/'+items[ii].media_file.path; 
                               }
@@ -275,10 +307,14 @@ switch(userbrowser) {
                               conf_hotspots[ii] = [];      
                               conf_hotspots[ii]['hotspot_setting'] = [];
                               
-                              if(userbrowser == 'Safari' || userbrowser == 'IE-Browser'){ 
+                              if(userbrowser == 'Chrome' || userbrowser == 'IE-Browser'){ 
                                 var fileItem = items[ii].media_file.path.split(".");
                                 fileItem = fileItem[0]; 
-                                imgs[ii] = '/storage/uploads/'+o.user.company_id+'/original/'+fileItem+'.jpg?v='+dt;
+
+                 
+                                 imgs[ii] = '/storage/uploads/'+o.user.company_id+'/original/'+fileItem+'.jpg?v='+dt;
+                 
+                                
                               }else{ 
                                 imgs[ii] = '/storage/uploads/'+o.user.company_id+'/'+items[ii].media_file.path+'?v='+dt;
                               }
