@@ -290,14 +290,10 @@ switch(userbrowser) {
 
                               if(userbrowser == 'Safari' || userbrowser == 'IE-Browser'){ 
                                 var fileItem = items[ii].media_file.path.split(".");
-                                fileItem = fileItem[0]; 
-                                var url = base_url+ '/storage/uploads/'+o.user.company_id+'/original/'+fileItem+'.jpg';
-                                
-                                if ( ImageExist(url)) { 
-                                  panoramicImg[ii] = '/storage/uploads/'+o.user.company_id+'/original/'+fileItem+'.jpg?v='+dt;
-                                } else { 
-                                  panoramicImg[ii] = '/storage/uploads/'+o.user.company_id+'/original/'+fileItem+'.png?v='+dt;
-                                }  
+                                fileItem = fileItem[0];  
+                               
+                                panoramicImg[ii] = '/storage/uploads/'+o.user.company_id+'/original/'+fileItem+'.jpg?v='+dt;
+                               
                                  
                               }else{ 
                                   panoramicImg[ii] = '/storage/uploads/'+o.user.company_id+'/'+items[ii].media_file.path; 
