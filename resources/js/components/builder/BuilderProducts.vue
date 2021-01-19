@@ -167,7 +167,7 @@ export default {
         window.location.origin +
         "/product/" +
         slug +
-        '" style="border:none; position:absolute; top:0; left:0;height: 100%;" width="100%" title="' +
+        '" style="border:none; position:absolute; top:0; left:0;bottom:auto;right:auto;height: 1px;min-height:100%; *height:100%; width: 1px; min-width: 100%; *width: 100%;" title="' +
         title +
         '" scrolling="no" allowfullscreen="allowfullscreen"></iframe></div>';
     },
