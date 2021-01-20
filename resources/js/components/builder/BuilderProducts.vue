@@ -199,7 +199,7 @@ export default {
           this.getProducts(curPage);
         })
         .catch((error) => {
-          this.dialogDelete = false; 
+          this.dialogDelete = false;
           console.log("Error Deleting Items");
           console.log(error);
         });

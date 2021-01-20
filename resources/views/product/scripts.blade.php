@@ -199,12 +199,20 @@ switch(userbrowser) {
                 
                       if(xx == 1){ 
                       var vds = '';
-                          $.each(data.videos, function(i,o){   
+                          $.each(data.videos, function(i,o){
+                            var videoData = o.video_path;
+                            if( videoData.includes("iframe") ){
+                              vds +=  '<div style="width:220px !important; height:140px !important;">' +videoData  +'</div>';
+                            }else if( videoData.includes("youtube.com/watch?v") ){ 
+                              var videoSplit = videoData.split("?v=");
+                              vds += '<div><iframe width="220" height="140" src="https://www.youtube.com/embed/'+ videoSplit[1] +'" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>'
+                            }else{
                               vds +=  '<div> <video preload="metadata"  width="220" height="140" controls>'+
-                                              '<source src="'+o.video_path+'" type="video/mp4">'+
+                                              '<source src="'+videoData+'" type="video/mp4">'+
                                               'Your browser does not support the video tag.'+
                                             '</video>'+
                                         '</div>';
+                            }
                           }); 
                         
                         $(".video-slider").html( vds );
