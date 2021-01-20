@@ -521,6 +521,9 @@ z-index: 9;
   }
    .spritespin.with-canvas{ border: 2px solid #848282;}
    .slick-track{ margin: 0 !important; }
+
+   .video-slider iframe{    width: 100%;
+    height: 100%;}
     </style>
 <script> 
 var base_url = "{{URL::to('/')}}";  
