@@ -274,7 +274,7 @@ display: none;
   width: 100%;
   height: 82%;
   overflow: hidden;
-  background-color: rgb(0 0 0 / 80%);
+  background-color: transparent;
 }
 
 /* Modal Content */
@@ -307,6 +307,8 @@ display: none;
     border: 1px solid #ff0a0a;
     border-radius: 50%;
     padding: 0px 6px;
+    -webkit-box-shadow: 0px 0px 10px 5px #868686;
+    box-shadow: 0px 0px 10px 5px #868686;
 }
 
 .close:hover,
