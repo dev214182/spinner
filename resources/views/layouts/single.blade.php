@@ -274,7 +274,7 @@ display: none;
   width: 100%;
   height: 82%;
   overflow: hidden;
-  background-color: transparent;
+  background-color: rgb(0 0 0 / 80%);
 }
 
 /* Modal Content */
