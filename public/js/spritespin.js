@@ -1824,7 +1824,7 @@ extendApi({
     function onDraw(e, data) {
         var specs = findSpecs(data.metrics, data.frames, data.frame, data.lane);
         var sheet = specs.sheet;
-        console.log(sheet);
+        //console.log(sheet);
         var sprite = specs.sprite;
         if (!sheet || !sprite) {
             return;
