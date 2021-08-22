@@ -163,7 +163,7 @@ export default {
     openCode(slug, title) {
       this.dialog = true;
       this.code =
-        '<div id="body-spin" style="padding-top:81%;position:relative;"><iframe src="' +
+        '<div id="body-spin" style="padding-top:86%;position:relative;"><iframe src="' +
         window.location.origin +
         "/product/" +
         slug +
