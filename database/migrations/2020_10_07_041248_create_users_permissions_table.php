@@ -15,14 +15,7 @@ class CreateUsersPermissionsTable extends Migration
     {
         Schema::create('users_permissions', function (Blueprint $table) {
             $table->bigInteger('user_id')->unsigned();
-            $table->unsignedInteger('permission_id');
-
-            //FOREIGN KEY CONSTRAINTS
-            // $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            // $table->foreign('permission_id')->references('id')->on('permissions')->onDelete('cascade');
- 
-            // //SETTING THE PRIMARY KEYS
-            // $table->primary(['user_id','permission_id']);
+            $table->unsignedInteger('permission_id'); 
         });
     }
 
